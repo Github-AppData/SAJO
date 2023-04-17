@@ -6,7 +6,7 @@
 
     <!-- 로고 이미지와 마이페이지로 이동하는 버튼을 포함한 레이아웃 -->
     <LinearLayout
-        android:id="@+id/logo_layout"
+        android:id="@+id/main_logo_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#0C2840"
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_layout"
-        android:layout_below="@id/logo_layout"
+        android:layout_below="@id/main_logo_layout"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -60,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_layout"
-        android:layout_below="@id/logo_layout"
+        android:layout_below="@id/main_logo_layout"
         android:orientation="vertical"
         android:visibility="gone">
 

@@ -2,12 +2,14 @@ package com.example.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -16,10 +18,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.collection.ArraySet;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
         // 아이디 부여
-        btn_chart = (Button) findViewById(R.id.btn_chart);
-        btn_study = (Button) findViewById(R.id.btn_study);
-        btn_mypage = (Button)findViewById(R.id.btn_mypage);
+        btn_chart = (Button) findViewById(R.id.btn_chart); // 차트 레이아웃을 띄우는 버튼
+        btn_study = (Button) findViewById(R.id.btn_study); // 스터디 레이아웃을 띄우는 버튼
+        btn_mypage = (Button)findViewById(R.id.btn_mypage); // 마이페이지로 가는 버튼
 
-        chart_layout = (LinearLayout) findViewById(R.id.chart_layout);
-        study_layout = (LinearLayout) findViewById(R.id.study_layout);
+        chart_layout = (LinearLayout) findViewById(R.id.chart_layout); // 차트 레이아웃
+        study_layout = (LinearLayout) findViewById(R.id.study_layout); // 스터디 레이아웃
 
 
         // 차트 버튼 클릭 시 색상 변경 및 레이아웃 변경
@@ -107,17 +112,17 @@ public class MainActivity extends AppCompatActivity {
     // 아래로는 프래그먼트 클래스 연결 부분
     public static class ChartFragActivity extends Fragment {
 
-        private ListView listView;
+        private ListView listView; // CHART 창의 프래그먼트로 연결된 리스트뷰
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
             // chart 레이아웃 파일 내용이 main 레이아웃 파일의 프래그먼트 안으로
-            View view = inflater.inflate(R.layout.fragment_chart_frag_activity, container, false);
+            View ChartView = inflater.inflate(R.layout.fragment_chart_frag_activity, container, false);
 
             // 리스트뷰 아이디 부여
-            listView = view.findViewById(R.id.song_list);
+            listView = ChartView.findViewById(R.id.song_list);
 
             // 임시 노래 목록
             String[][] data = {
@@ -125,29 +130,55 @@ public class MainActivity extends AppCompatActivity {
                     {"2", "두번째 발라드 제목", "비운의 가수"},
                     {"3", "세번째 힙합 제목", "그냥 그런 가수"}
             };
+            // TODO : 위에 노래 데이터 넣기
 
             List<String[]> songList = Arrays.asList(data);
 
             // SongAdapter 객체를 생성하고 ListView의 어댑터로 설정
-            SongAdapter adapter = new SongAdapter(getActivity(), songList);
-            listView.setAdapter(adapter);
+            SongAdapter Sadapter = new SongAdapter(getActivity(), songList);
+            listView.setAdapter(Sadapter);
 
-            return view;
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                    
+                    // TODO : Chart 에서 노래 클릭 시 Study 탭으로 해당 노래를 추가할 수 있도록 하는 로직
+                    
+                }
+            });
+
+            return ChartView;
 
         }
+
     }
 
     public static class StudyFragActivity extends Fragment {
+
+        private ListView playlist_view; // STUDY 창의 프래그먼트로 연결된 리스트뷰
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
             // study 레이아웃 파일 내용이 main 레이아웃 파일의 프래그먼트 안으로
-            View view = inflater.inflate(R.layout.fragment_study_frag_activity, container, false);
+            View StudyView = inflater.inflate(R.layout.fragment_study_frag_activity, container, false);
 
-            return view;
+            // 리스트뷰 아이디 부여
+            playlist_view = StudyView.findViewById(R.id.playlist_view);
+
+            // TODO : Chart 화면에서 클릭한 아이템 데이터 끌어올 수 있도록 수정
+            String[][] data = {};
+
+            List<String[]> playList = Arrays.asList(data);
+
+            // PlaylistAdapter 객체를 생성하고 Listview의 어댑터로 설정
+            PlaylistAdapter Padapter = new PlaylistAdapter(getActivity(), playList);
+            playlist_view.setAdapter(Padapter);
+
+            return StudyView;
         }
+
     }
 
 }

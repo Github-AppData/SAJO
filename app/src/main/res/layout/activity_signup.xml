@@ -9,7 +9,7 @@
 
     <!-- 로고 이미지 -->
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/signup_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -31,7 +31,7 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/signup_logo" />
 
     <!-- 사용할 아이디 입력창 -->
     <EditText

@@ -21,11 +21,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_password_change);
 
         // 아이디 부여
-        current_password = (EditText) findViewById(R.id.current_password);
-        change_password = (EditText) findViewById(R.id.change_password);
-        change_password_Check = (EditText) findViewById(R.id.change_password_check);
-        btn_change_password_launch = (Button) findViewById(R.id.btn_change_password_launch);
-        btn_go_back = (Button) findViewById(R.id.btn_go_back);
+        current_password = (EditText) findViewById(R.id.current_password); // 현재 비밀번호 에디트텍스트
+        change_password = (EditText) findViewById(R.id.change_password); // 변경할 비밀번호 에디트텍스트
+        change_password_Check = (EditText) findViewById(R.id.change_password_check); // 변경할 비밀번호 확인 에디트텍스트
+        btn_change_password_launch = (Button) findViewById(R.id.btn_change_password_launch); // 비밀번호 변경 실행 버튼
+        btn_go_back = (Button) findViewById(R.id.btn_go_back); // 마이페이지로 돌아가는 back 버튼
 
         // 비밀번호 변경하기 버튼 클릭 시 이베트
         btn_change_password_launch.setOnClickListener(new View.OnClickListener() {
@@ -49,14 +49,14 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 }
 
                 // 현재 비밀번호가 맞는지 확인
-                // DB 연동해서 확인해야 함
+                // TODO : DB 연동해서 확인해야 함
                 if (!Ecurrent_password.equals("현재 비밀번호")) {
                     Toast.makeText(getApplicationContext(), "현재 비밀번호가 올바르지 않습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // 비밀번호 변경 로직
-                // 비밀번호 변경 코드 짜야하는데 DB와 연동 필요해서,,,
+                // TODO : DB와 연동 후 비밀번호 변경 로직
+                // 비밀번호 변경 로직 부분
 
                 // 비밀번호 변경 후 로그인 화면으로 이동
                 Toast.makeText(getApplicationContext(), "비밀번호가 변경되었습니다. 다시 로그인 해주세요.", Toast.LENGTH_SHORT).show();
@@ -73,8 +73,5 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 startActivity(intent_mp); // 다시 마이페이지로 돌아감
             }
         });
-
-
     }
-
 }

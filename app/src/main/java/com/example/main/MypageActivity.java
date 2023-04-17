@@ -17,26 +17,29 @@ import org.w3c.dom.Text;
 public class MypageActivity extends AppCompatActivity {
 
     TextView user_info_email, user_info_name;
-    Button btn_change_password, btn_logout;
+    Button btn_wordbook, btn_change_password, btn_logout, btn_go_main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
 
-        user_info_email = (TextView) findViewById(R.id.user_info_email) ;
-        user_info_name = (TextView) findViewById(R.id.user_info_name) ;
-        btn_logout = (Button) findViewById(R.id.btn_logout);
-        btn_change_password = (Button) findViewById(R.id.btn_change_password);
+        user_info_email = (TextView) findViewById(R.id.user_info_email) ; // 유저 이메일 정보
+        user_info_name = (TextView) findViewById(R.id.user_info_name) ; // 유저명 정보
+        btn_change_password = (Button) findViewById(R.id.btn_change_password); // 비밀번호 변경 버튼
+        btn_logout = (Button) findViewById(R.id.btn_logout); // 로그아웃 버튼
+        btn_wordbook = (Button) findViewById(R.id.btn_wordbook); // 나의 단어장 버튼
+        btn_go_main = (Button) findViewById(R.id.btn_go_main); // 메인으로 돌아가는 버튼
 
 
-        // DB와 연동하여 로그인 유저의 이메일과 사용자명이 뜨도록
-
+        // TODO : DB와 연동하여 로그인 유저의 이메일과 사용자명이 뜨도록
+        // 내 정보 텍스트뷰
 
         // 로그아웃 버튼 클릭 시 로그아웃 프로세스 진행
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // 로그아웃 버튼 클릭 이벤트 처리
                 AlertDialog.Builder builder = new AlertDialog.Builder(MypageActivity.this);
                 builder.setMessage("정말 로그아웃 하시겠습니까?")
@@ -64,11 +67,30 @@ public class MypageActivity extends AppCompatActivity {
             }
         });
 
+        // 나의 단어장 버튼 클릭 이벤트 (나의 단어장으로 이동)
+        btn_wordbook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_wd = new Intent(MypageActivity.this, WordbookActivity.class);
+                startActivity(intent_wd); // 나의 단어장 화면으로 이동함
+            }
+        });
+
+        // 비밀번호 변경 버튼 클릭 시 비밀번호 변경 화면으로 이동
         btn_change_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent_pw = new Intent(MypageActivity.this, ChangePasswordActivity.class);
                 startActivity(intent_pw); // 비밀번호 변경 화면으로 이동함
+            }
+        });
+
+        // BACK 버튼 클릭 이벤트 (메인으로 이동)
+        btn_go_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_main = new Intent(MypageActivity.this, MainActivity.class);
+                startActivity(intent_main);
             }
         });
 

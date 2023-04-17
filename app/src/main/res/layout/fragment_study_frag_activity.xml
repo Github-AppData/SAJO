@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0C2840"
     tools:context=".StudyFragActivity">
 
-    <!-- 아직 작업 안 함... -->
-    <TextView
+    <ListView
+        android:id="@+id/playlist_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_margin="8dp"/>
 
 </FrameLayout>

@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Main"
         tools:targetApi="31">
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme"
@@ -59,6 +60,24 @@
 
         <activity
             android:name=".ChangePasswordActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".StudyActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".WordbookActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

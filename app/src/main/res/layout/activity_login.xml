@@ -9,7 +9,7 @@
 
     <!-- 로고 이미지 -->
     <ImageView
-        android:id="@+id/logo"
+        android:id="@+id/login_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -59,6 +59,7 @@
         android:layout_marginTop="10dp"
         android:backgroundTint="#16D6F7"
         android:text="LOG IN"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/login_pw"
         app:layout_constraintStart_toStartOf="@+id/login_pw"
@@ -72,6 +73,7 @@
         android:layout_marginBottom="50dp"
         android:backgroundTint="#16D6F7"
         android:text="SIGN UP"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btn_login"
         app:layout_constraintStart_toStartOf="@+id/btn_login" />
