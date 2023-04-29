@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DBHelper extends SQLiteOpenHelper {
+class DBHelper extends SQLiteOpenHelper {
     static final String DATABASE_NAME = "userdata.db";
 
     public DBHelper(Context context){
@@ -34,7 +34,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("UPDATE INTO USER VALUES('" + id + "','" + name + "','" + pwd + "', '" + email + "'");
         db.close();
     }
-
 
     public boolean checkEmailExist(String email) {
         // SQL 쿼리문을 작성합니다.
