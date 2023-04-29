@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 회원가입 창으로 이동하는 코드 작성
-                intent_signup = new Intent(LoginActivity.this, SignupActivity.class);
+                intent_signup = new Intent(LoginActivity.this,  SignupActivity.class);
                 startActivity(intent_signup);
             }
         });
