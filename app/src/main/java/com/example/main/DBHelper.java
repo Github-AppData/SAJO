@@ -4,11 +4,62 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 class DBHelper extends SQLiteOpenHelper {
 
+    private static String db_Path = "";
+    private static String db_Name = "userdata.db";
+    private Context mContext;
+    private SQLiteDatabase mDataBase;
+
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
         super(context, name, factory, version);
+        db_Path = "/data/data/" + context.getPackageName() + "/databases/";
+        this.mContext = context;
+        dataBaseCheck();
+    }
+    private void dataBaseCheck() {
+        File dbFile = new File(db_Path + db_Name);
+        if (!dbFile.exists()) {
+            dbCopy();
+        }
+    }
+    @Override
+    public synchronized void close() {
+        if (mDataBase != null) {
+            mDataBase.close();
+        }
+        super.close();
+    }
+    // db를 assets에서 복사해온다.
+    private void dbCopy() {
+        try {
+            File folder = new File(db_Path);
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+            InputStream inputStream = mContext.getAssets().open(db_Name);
+            String out_filename = db_Path + db_Name;
+            OutputStream outputStream = new FileOutputStream(out_filename);
+            byte[] mBuffer = new byte[1024];
+            int mLength;
+            while ((mLength = inputStream.read(mBuffer)) > 0) {
+                outputStream.write(mBuffer,0,mLength);
+            }
+            outputStream.flush();;
+            outputStream.close();
+            inputStream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
