@@ -60,7 +60,6 @@ public class SignupActivity extends AppCompatActivity{
                 startActivity(intent);
                 finish();
             }
-
             sqlDB.close();
 
         });

@@ -1,0 +1,43 @@
+package com.example.main;
+
+public class _USER {
+    public String user_id; // 사용자 id
+    public String user_name; // 사용자명
+    public String user_email; // 사용자 이메일
+    public String user_pwd; // 사용자 비밀번호
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public String getUser_email() {
+        return user_email;
+    }
+
+    public void setUser_email(String user_email) {
+        this.user_email = user_email;
+    }
+
+    public String getUser_pwd() {
+        return user_pwd;
+    }
+
+    public void setUser_pwd(String user_pwd) {
+        this.user_pwd = user_pwd;
+    }
+
+
+
+}

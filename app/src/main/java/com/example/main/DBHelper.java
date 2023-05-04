@@ -2,6 +2,7 @@ package com.example.main;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -11,13 +12,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 class DBHelper extends SQLiteOpenHelper {
 
     private static String db_Path = "";
     private static String db_Name = "userdata.db";
     private Context mContext;
-    private SQLiteDatabase mDataBase;
+    private SQLiteDatabase DataBase;
 
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
         super(context, name, factory, version);
@@ -33,8 +36,8 @@ class DBHelper extends SQLiteOpenHelper {
     }
     @Override
     public synchronized void close() {
-        if (mDataBase != null) {
-            mDataBase.close();
+        if (DataBase != null) {
+            DataBase.close();
         }
         super.close();
     }
@@ -60,6 +63,12 @@ class DBHelper extends SQLiteOpenHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean openDataBase() throws SQLException
+    {
+        DataBase = SQLiteDatabase.openDatabase(db_Path, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        return DataBase != null;
     }
 
     @Override
@@ -117,5 +126,42 @@ class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         return false;
     }
+
+    public List getTableData(SQLiteDatabase db,String TABLE_NAME, String id)
+    {
+        try
+        {
+            // Table 이름 -> antpool_bitcoin 불러오기
+            String query ="SELECT * FROM '" +  TABLE_NAME + "' WHERE id = '" + id + "';";
+
+            // 모델 넣을 리스트 생성
+            List userList = new ArrayList();
+
+            // TODO : 모델 선언
+            _USER user = null;
+
+            Cursor mCur = db.rawQuery(query, null);
+            if (mCur!=null)
+            {
+                    // TODO : 커스텀 모델 생성
+                    user = new _USER();
+
+                    // TODO : Record 기술
+                    user.setUser_id(mCur.getString(0));
+                    user.setUser_name(mCur.getString(1));
+                    user.setUser_pwd(mCur.getString(2));
+                    user.setUser_email(mCur.getString(3));
+
+                    // 리스트에 넣기
+                    userList.add(user);
+            }
+            return userList;
+        }
+        catch (SQLException mSQLException)
+        {
+            throw mSQLException;
+        }
+    }
+
 
 }

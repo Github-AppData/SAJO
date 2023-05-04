@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class LoginActivity extends AppCompatActivity {
     EditText login_id, login_pw;
     Button btn_login, btn_signup;
@@ -19,7 +21,10 @@ public class LoginActivity extends AppCompatActivity {
     SQLiteDatabase db;
 
     String sql;
+
     Cursor cursor;
+
+    public List<_USER> userList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(LoginActivity.this, "아이디와 비밀번호가 맞지않습니다.", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
+                dbhelper.getTableData(db, "user_data",id);
                 Toast toast = Toast.makeText(LoginActivity.this, "로그인성공", Toast.LENGTH_SHORT);
                 toast.show();
                 intent_login = new Intent(getApplicationContext(), MainActivity.class);
