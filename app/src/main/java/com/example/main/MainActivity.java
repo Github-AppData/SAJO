@@ -102,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 마이 페이지 액티비티로 이동하는 Intent를 생성합니다.
-                Intent intent = new Intent(MainActivity.this, MypageActivity.class);
-                startActivity(intent); // 액티비티를 실행합니다.
+                Intent mypage_intent = new Intent(MainActivity.this, MypageActivity.class);
+                startActivity(mypage_intent); // 액티비티를 실행합니다.
             }
         });
 

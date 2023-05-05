@@ -2,6 +2,7 @@ package com.example.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,9 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
+
     EditText login_id, login_pw;
     Button btn_login, btn_signup;
     Intent intent_login;
@@ -22,9 +23,10 @@ public class LoginActivity extends AppCompatActivity {
 
     String sql;
 
+    _USER user;
+
     Cursor cursor;
 
-    public List<_USER> userList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +34,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         dbhelper = new DBHelper(LoginActivity.this,"userdata.db",null,1);
+        user = new _USER();
         db = dbhelper.getWritableDatabase();
         dbhelper.onCreate(db);
         db.close();
+
 
         // 아이디 부여
         login_id = findViewById(R.id.login_id); // 로그인 시 입력할 아이디 에디트텍스트
@@ -80,9 +84,10 @@ public class LoginActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(LoginActivity.this, "아이디와 비밀번호가 맞지않습니다.", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                dbhelper.getTableData(db, "user_data",id);
+                user.setUser_id(id);
                 Toast toast = Toast.makeText(LoginActivity.this, "로그인성공", Toast.LENGTH_SHORT);
                 toast.show();
+
                 intent_login = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent_login);
                 finish();

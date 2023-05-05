@@ -1,11 +1,20 @@
 package com.example.main;
 
-public class _USER {
-    public String user_id; // 사용자 id
-    public String user_name; // 사용자명
-    public String user_email; // 사용자 이메일
-    public String user_pwd; // 사용자 비밀번호
+import java.util.List;
 
+public class _USER {
+    private static String user_id; // 사용자 id
+    private static String user_name; // 사용자명
+    private static String user_email; // 사용자 이메일
+    private static String user_pwd; // 사용자 비밀번호
+
+
+    public _USER(){
+        this.user_id = "";
+        this.user_name = "";
+        this.user_email = "";
+        this.user_pwd = "";
+    }
     public String getUser_id() {
         return user_id;
     }
