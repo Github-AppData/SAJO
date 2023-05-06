@@ -1,8 +1,12 @@
 package com.example.main;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,12 +22,23 @@ public class MypageActivity extends AppCompatActivity {
 
     TextView user_info_email, user_info_name;
     Button btn_wordbook, btn_change_password, btn_logout, btn_go_main;
-
+    DBHelper dbhelper;
+    SQLiteDatabase db;
     _USER user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
+
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
+
+        user = new _USER();
+        dbhelper = new DBHelper(MypageActivity.this,"userdata.db",null,1);
+        db = dbhelper.getWritableDatabase();
+        //MainActivity에서 받은 id를 사용하여 db에 검색하여 캡슐화하여 저장
+        dbhelper.getUserData(db,user,"USER",id);
+        db.close();
 
         user_info_email = (TextView) findViewById(R.id.user_info_email) ; // 유저 이메일 정보
         user_info_name = (TextView) findViewById(R.id.user_info_name) ; // 유저명 정보
@@ -35,7 +50,8 @@ public class MypageActivity extends AppCompatActivity {
 
         // TODO : DB와 연동하여 로그인 유저의 이메일과 사용자명이 뜨도록
         // 내 정보 텍스트뷰
-        user_info_email.setText(user.getUser_id());
+        user_info_email.setText(user.getUser_email());
+        user_info_name.setText(user.getUser_name());
 
         // 로그아웃 버튼 클릭 시 로그아웃 프로세스 진행
         btn_logout.setOnClickListener(new View.OnClickListener() {

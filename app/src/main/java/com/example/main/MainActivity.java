@@ -35,11 +35,16 @@ public class MainActivity extends AppCompatActivity {
     // 선언
     Button btn_chart, btn_study, btn_mypage;
     LinearLayout chart_layout, study_layout;
+    _USER user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
 
         // 프래그먼트 레이아웃 추가
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -103,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // 마이 페이지 액티비티로 이동하는 Intent를 생성합니다.
                 Intent mypage_intent = new Intent(MainActivity.this, MypageActivity.class);
+                mypage_intent.putExtra("id",id);
+                mypage_intent.putExtra("userdata", user);
                 startActivity(mypage_intent); // 액티비티를 실행합니다.
             }
         });

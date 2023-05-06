@@ -127,23 +127,21 @@ class DBHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public void setUserData(SQLiteDatabase db, String TABLE_NAME, String id)
+    public void getUserData(SQLiteDatabase db, _USER user, String TABLE_NAME, String id)
     {
         String query ="SELECT * FROM '" +  TABLE_NAME + "' WHERE id = '" + id + "';";
-
-        Cursor mCur = db.rawQuery(query, null);
-        if (mCur!=null)
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor!=null)
         {
-            _USER user = new _USER();
-
-            // _USER에 값 저장
-            user.setUser_id(mCur.getString(0));
-            user.setUser_name(mCur.getString(1));
-            user.setUser_pwd(mCur.getString(2));
-            user.setUser_email(mCur.getString(3));
-
+            while(cursor.moveToNext()) {
+                // _USER에 값 저장
+                user.setUser_id(cursor.getString(0));
+                user.setUser_name(cursor.getString(1));
+                user.setUser_pwd(cursor.getString(2));
+                user.setUser_email(cursor.getString(3));
+            }
+            cursor.close();
         }
     }
-
 
 }

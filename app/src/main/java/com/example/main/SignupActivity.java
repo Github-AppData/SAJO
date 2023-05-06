@@ -38,8 +38,6 @@ public class SignupActivity extends AppCompatActivity{
 
             dbhelper = new DBHelper(SignupActivity.this,"userdata.db",null,1);
             sqlDB = dbhelper.getWritableDatabase();
-            String query = "SELECT * FROM USER WHERE email = '" + email + "';";
-            Cursor cursor = sqlDB.rawQuery(query, null);
 
             //아이디와 비밀번호가 입력됬는지 확인
             if(id.length() == 0 || pwd.length() == 0){
