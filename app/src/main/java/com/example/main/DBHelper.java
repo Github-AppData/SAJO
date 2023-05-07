@@ -82,15 +82,7 @@ class DBHelper extends SQLiteOpenHelper {
     }
 
     public void Insert(SQLiteDatabase db,String id, String name, String pwd, String email){
-        db.beginTransaction();
-        try {
-            db.execSQL("INSERT INTO USER VALUES('" + id + "','" + name + "','" + pwd + "', '" + email + "')");
-            db.setTransactionSuccessful();
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            db.endTransaction();
-        }
+        db.execSQL("INSERT INTO USER VALUES('" + id + "','" + name + "','" + pwd + "', '" + email + "')");
     }
 
     public void Update(SQLiteDatabase db,String id, String name, String pwd, String email){
