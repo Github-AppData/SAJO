@@ -20,7 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     DBHelper dbhelper;
     SQLiteDatabase db;
     String sql;
-    _USER user;
+    static _USER user;
     Cursor cursor;
 
 
@@ -80,7 +80,8 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 Toast toast = Toast.makeText(LoginActivity.this, "로그인성공", Toast.LENGTH_SHORT);
                 toast.show();
-
+                dbhelper.getUserData(db,user,"USER",id);
+                db.close();
                 intent_login = new Intent(getApplicationContext(), MainActivity.class);
                 intent_login.putExtra("id",id);
                 startActivity(intent_login);

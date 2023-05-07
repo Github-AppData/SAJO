@@ -2,6 +2,8 @@ package com.example.main;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
+import static com.example.main.LoginActivity.user;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,7 +26,6 @@ public class MypageActivity extends AppCompatActivity {
     Button btn_wordbook, btn_change_password, btn_logout, btn_go_main;
     DBHelper dbhelper;
     SQLiteDatabase db;
-    _USER user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,12 +34,8 @@ public class MypageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
 
-        user = new _USER();
         dbhelper = new DBHelper(MypageActivity.this,"userdata.db",null,1);
         db = dbhelper.getWritableDatabase();
-        //MainActivity에서 받은 id를 사용하여 db에 검색하여 캡슐화하여 저장
-        dbhelper.getUserData(db,user,"USER",id);
-        db.close();
 
         user_info_email = (TextView) findViewById(R.id.user_info_email) ; // 유저 이메일 정보
         user_info_name = (TextView) findViewById(R.id.user_info_name) ; // 유저명 정보

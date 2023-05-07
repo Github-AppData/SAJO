@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -35,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
     // 선언
     Button btn_chart, btn_study, btn_mypage;
     LinearLayout chart_layout, study_layout;
-    _USER user;
+    DBHelper dbhelper;
+    SQLiteDatabase db;
 
 
     @Override
@@ -43,8 +45,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //login에서 보낸 데이터 받음
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
+
 
         // 프래그먼트 레이아웃 추가
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -109,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 // 마이 페이지 액티비티로 이동하는 Intent를 생성합니다.
                 Intent mypage_intent = new Intent(MainActivity.this, MypageActivity.class);
                 mypage_intent.putExtra("id",id);
-                mypage_intent.putExtra("userdata", user);
                 startActivity(mypage_intent); // 액티비티를 실행합니다.
             }
         });
