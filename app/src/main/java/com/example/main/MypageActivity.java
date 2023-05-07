@@ -22,7 +22,7 @@ import org.w3c.dom.Text;
 
 public class MypageActivity extends AppCompatActivity {
 
-    TextView user_info_email, user_info_name;
+    TextView user_info_email_data, user_info_name_data;
     Button btn_wordbook, btn_change_password, btn_logout, btn_go_main;
     DBHelper dbhelper;
     SQLiteDatabase db;
@@ -37,8 +37,8 @@ public class MypageActivity extends AppCompatActivity {
         dbhelper = new DBHelper(MypageActivity.this,"userdata.db",null,1);
         db = dbhelper.getWritableDatabase();
 
-        user_info_email = (TextView) findViewById(R.id.user_info_email) ; // 유저 이메일 정보
-        user_info_name = (TextView) findViewById(R.id.user_info_name) ; // 유저명 정보
+        user_info_email_data = (TextView) findViewById(R.id.user_info_email_data) ; // 유저 이메일 정보
+        user_info_name_data = (TextView) findViewById(R.id.user_info_name_data) ; // 유저명 정보
         btn_change_password = (Button) findViewById(R.id.btn_change_password); // 비밀번호 변경 버튼
         btn_logout = (Button) findViewById(R.id.btn_logout); // 로그아웃 버튼
         btn_wordbook = (Button) findViewById(R.id.btn_wordbook); // 나의 단어장 버튼
@@ -47,8 +47,8 @@ public class MypageActivity extends AppCompatActivity {
 
         // TODO : DB와 연동하여 로그인 유저의 이메일과 사용자명이 뜨도록
         // 내 정보 텍스트뷰
-        user_info_email.setText(user.getUser_email());
-        user_info_name.setText(user.getUser_name());
+        user_info_email_data.setText(user.getUser_email());
+        user_info_name_data.setText(user.getUser_name());
 
         // 로그아웃 버튼 클릭 시 로그아웃 프로세스 진행
         btn_logout.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +66,11 @@ public class MypageActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putBoolean("is_logged_in", false);
                                 editor.apply();
-
+                                // 저장되어 있던 데이터 null값으로 초기화
+                                user.setUser_id("");
+                                user.setUser_email("");
+                                user.setUser_pwd("");
+                                user.setUser_name("");
                                 Intent intent = new Intent(MypageActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 Toast.makeText(MypageActivity.this, "로그아웃했습니다.", Toast.LENGTH_SHORT).show();
