@@ -79,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 Toast toast = Toast.makeText(LoginActivity.this, "로그인성공", Toast.LENGTH_SHORT);
                 toast.show();
+                //다른 액티비티에서도 사용가능 하도록 값을 db에서 가져와 캡슐화하여 저장
                 dbhelper.getUserData(db,user,"USER",id);
                 db.close();
                 intent_login = new Intent(getApplicationContext(), MainActivity.class);

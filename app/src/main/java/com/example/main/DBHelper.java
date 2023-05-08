@@ -100,12 +100,12 @@ class DBHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM USER WHERE email = '" + email + "';";
         Cursor cursor = db.rawQuery(query, null);
 
-        // 결과가 있으면 중복된 이메일이 있다는 뜻입니다.
+        // 결과가 있으면 중복된 아이디가 있다는 뜻입니다.
         if (cursor.getCount() != 0) {
             cursor.close();
             return true;
         }
-        // 결과가 없으면 중복된 이메일이 없다는 뜻입니다.
+        // 결과가 없으면 중복된 아이디가 없다는 뜻입니다.
         cursor.close();
         return false;
     }

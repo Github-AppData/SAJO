@@ -35,7 +35,7 @@ public class MypageActivity extends AppCompatActivity {
         btn_logout = (Button) findViewById(R.id.btn_logout); // 로그아웃 버튼
         btn_wordbook = (Button) findViewById(R.id.btn_wordbook); // 나의 단어장 버튼
         btn_go_main = (Button) findViewById(R.id.btn_go_main); // 메인으로 돌아가는 버튼
-        
+
         // 내 정보 텍스트뷰
         user_info_email_data.setText(user.getUser_email());
         user_info_name_data.setText(user.getUser_name());
@@ -64,6 +64,7 @@ public class MypageActivity extends AppCompatActivity {
                                 Intent intent = new Intent(MypageActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 Toast.makeText(MypageActivity.this, "로그아웃했습니다.", Toast.LENGTH_SHORT).show();
+                                finish(); // 이전 화면을 종료하여 뒤로 가기 버튼으로 이전 화면으로 돌아갈 수 없도록 함
                             }
                         })
                         .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
