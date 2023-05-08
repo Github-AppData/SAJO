@@ -2,7 +2,6 @@ package com.example.main;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -11,8 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 class DBHelper extends SQLiteOpenHelper {
 
@@ -65,12 +62,6 @@ class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean openDataBase() throws SQLException
-    {
-        DataBase = SQLiteDatabase.openDatabase(db_Path, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        return DataBase != null;
-    }
-
     @Override
     public void onCreate(SQLiteDatabase db){
         db.execSQL("CREATE TABLE if not exists USER(id CHAR(10), name CHAR(10), pwd CHAR(20),email CHAR(30))");
@@ -81,12 +72,12 @@ class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS USER");
     }
 
-    public void Insert(SQLiteDatabase db,String id, String name, String pwd, String email){
-        db.execSQL("INSERT INTO USER VALUES('" + id + "','" + name + "','" + pwd + "', '" + email + "')");
+    public void Insert(SQLiteDatabase db ,String db_name ,String id, String name, String pwd, String email){
+        db.execSQL("INSERT INTO '" + db_name + "' VALUES('" + id + "','" + name + "','" + pwd + "', '" + email + "')");
     }
 
-    public void Update(SQLiteDatabase db,String id, String name, String pwd, String email){
-        db.execSQL("UPDATE INTO USER VALUES('" + id + "','" + name + "','" + pwd + "', '" + email + "')");
+    public void Update(SQLiteDatabase db,String db_name ,String id, String name, String pwd, String email){
+        db.execSQL("UPDATE '" + db_name + "' SET id = '" + id + "',name = '" + name + "',pwd = '" + pwd + "',email = '" + email + "' WHERE id = '" + id + "'");
     }
 
     public boolean checkEmailExist(SQLiteDatabase db,String email) {

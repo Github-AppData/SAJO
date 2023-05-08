@@ -1,7 +1,6 @@
 package com.example.main;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class _USER implements Serializable {
     private String user_id; // 사용자 id

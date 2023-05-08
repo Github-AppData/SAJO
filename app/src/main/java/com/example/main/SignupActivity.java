@@ -1,7 +1,6 @@
 package com.example.main;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
@@ -14,7 +13,7 @@ public class SignupActivity extends AppCompatActivity{
 
     // 선언
     DBHelper dbhelper;
-    SQLiteDatabase sqlDB;
+    SQLiteDatabase db;
     EditText signup_name, signup_id, signup_pwd, signup_email;
     Button complete_signup_btn;
 
@@ -37,7 +36,7 @@ public class SignupActivity extends AppCompatActivity{
             String name = signup_name.getText().toString();
 
             dbhelper = new DBHelper(SignupActivity.this,"userdata.db",null,1);
-            sqlDB = dbhelper.getWritableDatabase();
+            db = dbhelper.getWritableDatabase();
 
             //아이디와 비밀번호가 입력됬는지 확인
             if(id.length() == 0 || pwd.length() == 0){
@@ -45,21 +44,20 @@ public class SignupActivity extends AppCompatActivity{
                 return;
             }
             //이메일이 이미 존재하는지 확인
-            if (dbhelper.checkEmailExist(sqlDB,email)) {
+            if (dbhelper.checkEmailExist(db,email)) {
                 Toast.makeText(getApplicationContext(), "이미 사용 중인 이메일입니다.", Toast.LENGTH_SHORT).show();
             }
             // 아이디가 이미 존재하는지 확인
-            else if (dbhelper.checkIdExist(sqlDB,id)) {
+            else if (dbhelper.checkIdExist(db,id)) {
                 Toast.makeText(getApplicationContext(), "이미 사용 중인 아이디입니다.", Toast.LENGTH_SHORT).show();
             } else {
-                dbhelper.Insert(sqlDB,id, name, pwd, name);
+                dbhelper.Insert(db,"USER",id, name, pwd, email);
                 Toast.makeText(getApplicationContext(), "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
-            sqlDB.close();
-
+            db.close();
         });
     }
 }

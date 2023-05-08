@@ -1,13 +1,10 @@
 package com.example.main;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-
 import static com.example.main.LoginActivity.user;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -17,8 +14,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import org.w3c.dom.Text;
 
 public class MypageActivity extends AppCompatActivity {
 
@@ -31,9 +26,6 @@ public class MypageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
 
-        Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
-
         dbhelper = new DBHelper(MypageActivity.this,"userdata.db",null,1);
         db = dbhelper.getWritableDatabase();
 
@@ -43,9 +35,7 @@ public class MypageActivity extends AppCompatActivity {
         btn_logout = (Button) findViewById(R.id.btn_logout); // 로그아웃 버튼
         btn_wordbook = (Button) findViewById(R.id.btn_wordbook); // 나의 단어장 버튼
         btn_go_main = (Button) findViewById(R.id.btn_go_main); // 메인으로 돌아가는 버튼
-
-
-        // TODO : DB와 연동하여 로그인 유저의 이메일과 사용자명이 뜨도록
+        
         // 내 정보 텍스트뷰
         user_info_email_data.setText(user.getUser_email());
         user_info_name_data.setText(user.getUser_name());
