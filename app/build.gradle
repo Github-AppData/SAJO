@@ -6,6 +6,10 @@ android {
     namespace 'com.example.main'
     compileSdk 33
 
+    dataBinding{
+        enable = true
+    }
+    
     defaultConfig {
         applicationId "com.example.main"
         minSdk 33
