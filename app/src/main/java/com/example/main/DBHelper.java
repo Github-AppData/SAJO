@@ -6,29 +6,32 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 class DBHelper extends SQLiteOpenHelper {
 
-    private static String userdata_Path = "";
-    private static String db_Name = "userdata.db";
+    private static String deviceDB_Path = "";
+    private static String deviceDB_Name = "userdata.db";
     private Context mContext;
     private SQLiteDatabase DataBase;
 
 
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
         super(context, name, factory, version);
-        userdata_Path = "/data/data/" + context.getPackageName() + "/databases/";
+        deviceDB_Path = "/data/data/" + context.getPackageName() + "/databases/";
         this.mContext = context;
-        dataBaseCheck();
+        dataBaseCheck(deviceDB_Path,deviceDB_Name);
     }
-    private void dataBaseCheck() {
-        File dbFile = new File(userdata_Path + "userdata.db");
+    private void dataBaseCheck(String data_Path, String data_Name) {
+        File dbFile = new File(data_Path + data_Name);
         if (!dbFile.exists()) {
-            dbCopy(userdata_Path, "userdata.db");
+            dbCopy(data_Path, data_Name);
         }
     }
     @Override
