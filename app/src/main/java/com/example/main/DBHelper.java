@@ -13,7 +13,7 @@ import java.io.OutputStream;
 
 class DBHelper extends SQLiteOpenHelper {
 
-    private static String db_Path = "";
+    private static String userdata_Path = "";
     private static String db_Name = "userdata.db";
     private Context mContext;
     private SQLiteDatabase DataBase;
@@ -21,14 +21,14 @@ class DBHelper extends SQLiteOpenHelper {
 
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
         super(context, name, factory, version);
-        db_Path = "/data/data/" + context.getPackageName() + "/databases/";
+        userdata_Path = "/data/data/" + context.getPackageName() + "/databases/";
         this.mContext = context;
         dataBaseCheck();
     }
     private void dataBaseCheck() {
-        File dbFile = new File(db_Path + db_Name);
+        File dbFile = new File(userdata_Path + "userdata.db");
         if (!dbFile.exists()) {
-            dbCopy();
+            dbCopy(userdata_Path, "userdata.db");
         }
     }
     @Override
@@ -39,14 +39,14 @@ class DBHelper extends SQLiteOpenHelper {
         super.close();
     }
     // db를 assets에서 복사해온다.
-    private void dbCopy() {
+    private void dbCopy(String Path, String Name) {
         try {
-            File folder = new File(db_Path);
+            File folder = new File(Path);
             if (!folder.exists()) {
                 folder.mkdir();
             }
-            InputStream inputStream = mContext.getAssets().open(db_Name);
-            String out_filename = db_Path + db_Name;
+            InputStream inputStream = mContext.getAssets().open(Name);
+            String out_filename = Path + Name;
             OutputStream outputStream = new FileOutputStream(out_filename);
             byte[] mBuffer = new byte[1024];
             int mLength;
