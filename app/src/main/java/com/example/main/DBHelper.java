@@ -25,6 +25,7 @@ class DBHelper extends SQLiteOpenHelper {
         this.mContext = context;
         dataBaseCheck();
     }
+
     private void dataBaseCheck() {
         File dbFile = new File(db_Path + db_Name);
         if (!dbFile.exists()) {

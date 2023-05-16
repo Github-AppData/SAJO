@@ -19,12 +19,15 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Arrays;
 import java.util.List;
+import android.util.Log;
+
 
 public class MainActivity extends AppCompatActivity {
 
     // 선언
     Button btn_chart, btn_study, btn_mypage;
     LinearLayout chart_layout, study_layout;
+    private static final String TAG = "DBSongHelper";
 
 
 
@@ -36,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         //login에서 보낸 데이터 받음
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
+
+        Log.d(TAG, "DB_PATH: ");
 
 
         // 프래그먼트 레이아웃 추가
@@ -74,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
                     btn_study.setTextColor(Color.WHITE);
                     chart_layout.setVisibility(View.VISIBLE);
                     study_layout.setVisibility(View.GONE);
+
+                    Intent chart_intent = new Intent(MainActivity.this, songActivity.class);
+                    startActivity(chart_intent); // 액티비티를 실행합니다.
                 }
             }
         });
@@ -100,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // 마이 페이지 액티비티로 이동하는 Intent를 생성합니다.
                 Intent mypage_intent = new Intent(MainActivity.this, MypageActivity.class);
-                mypage_intent.putExtra("id",id);
                 startActivity(mypage_intent); // 액티비티를 실행합니다.
             }
         });
@@ -124,17 +131,15 @@ public class MainActivity extends AppCompatActivity {
 
             // 임시 노래 목록
             String[][] data = {
-                    {"1", "첫번째 댄스곡 제목", "1위 가수"},
-                    {"2", "두번째 발라드 제목", "비운의 가수"},
-                    {"3", "세번째 힙합 제목", "그냥 그런 가수"}
+                    {"1st", "That's Hilarious", "Charlie Puth"},
+                    {"2nd", "Made you look", "Meghan Trainor"},
+                    {"3rd", "Off my face", "Justin Bieber"}
             };
             // TODO : 위에 노래 데이터 넣기
 
             List<String[]> songList = Arrays.asList(data);
 
             // SongAdapter 객체를 생성하고 ListView의 어댑터로 설정
-            SongAdapter Sadapter = new SongAdapter(getActivity(), songList);
-            listView.setAdapter(Sadapter);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
