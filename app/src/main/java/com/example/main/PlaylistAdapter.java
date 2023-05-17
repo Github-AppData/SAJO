@@ -27,10 +27,8 @@ public class PlaylistAdapter extends ArrayAdapter<String[]> {
         }
 
         TextView playlist_title = convertView.findViewById(R.id.playlist_title);
-        TextView playlist_artist = convertView.findViewById(R.id.playlist_artist);
 
         playlist_title.setText(playlist[0]);
-        playlist_artist.setText(playlist[1]);
 
 
         return convertView;

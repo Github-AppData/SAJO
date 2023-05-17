@@ -1,5 +1,6 @@
 package com.example.main;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 class DBHelper extends SQLiteOpenHelper {
 
@@ -17,6 +20,16 @@ class DBHelper extends SQLiteOpenHelper {
     private static String db_Name = "userdata.db";
     private Context mContext;
     private SQLiteDatabase DataBase;
+
+    private static String DB_TABLE = "song";
+
+    // columns name
+    private static String col_id = "id";
+    private static String col_rank = "rank";
+    private static String col_name = "name";
+    private static String col_singer = "singer";
+    private static String col_lyrics = "lyrics";
+    private static String col_lyrics_translation = "lyrics_translation";
 
 
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
@@ -68,13 +81,48 @@ class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE if not exists USER(id CHAR(10), name CHAR(10), pwd CHAR(20),email CHAR(30))");
     }
 
+    public void onCreateSong(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE " + DB_TABLE + " ("+
+                col_id + "integer primary key autoincrement not null, "+
+                col_rank + "integer not null, "+
+                col_name + "text not null, "+
+                col_singer + "text not null,"+
+                col_lyrics + "text not null,"+
+                col_lyrics_translation + "text not null" + ") "
+        );
+
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS USER");
     }
 
+    public void onUpgradeSong(SQLiteDatabase db, int i, int i1) {
+        db.execSQL("DROP table if exists " + DB_TABLE);
+    }
+
     public void Insert(SQLiteDatabase db ,String db_name ,String id, String name, String pwd, String email){
         db.execSQL("INSERT INTO '" + db_name + "' VALUES('" + id + "','" + name + "','" + pwd + "', '" + email + "')");
+    }
+
+    public boolean insertData(int id, int rank, String name, String singer, String lyrics, String lyrics_translation)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // contentValues 에다가 데이터 저장
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(col_id, id);
+        contentValues.put(col_rank, rank);
+        contentValues.put(col_name, name);
+        contentValues.put(col_singer, singer);
+        contentValues.put(col_lyrics, lyrics);
+        contentValues.put(col_lyrics_translation, lyrics_translation);
+
+        // 저장한 데이터를 result 변수 에다가 옮긴다.
+        long result = db.insert(DB_TABLE, null, contentValues);
+
+        return result != -1; // if result = -1 data dosent insert
     }
 
     public void Update(SQLiteDatabase db,String db_name ,String id, String name, String pwd, String email){
@@ -109,6 +157,31 @@ class DBHelper extends SQLiteOpenHelper {
         // 결과가 없으면 중복된 아이디가 없다는 뜻입니다.
         cursor.close();
         return false;
+    }
+
+    public List<Chart> getAllSongs() {
+        List<Chart> songList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + col_rank + ", " + col_name + ", " + col_singer +
+                " FROM " + DB_TABLE;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int rank = cursor.getInt(0); // Index 1 is rank
+                String name = cursor.getString(1); // Index 2 is name
+                String singer = cursor.getString(2); // Index 3 is singer
+
+                Chart chart = new Chart(rank, name, singer);
+                songList.add(chart);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return songList;
     }
 
     public void getUserData(SQLiteDatabase db, _USER user, String TABLE_NAME, String id)

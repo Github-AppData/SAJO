@@ -10,17 +10,12 @@
         android:id="@+id/playlist_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="45sp"
+        android:textAlignment="center"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:text="공부할 노래 제목"/>
+        android:text="Playlist"/>
 
-    <TextView
-        android:id="@+id/playlist_artist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="#16D6F7"
-        android:text="노래 부른 사람"/>
+
 
 </LinearLayout>

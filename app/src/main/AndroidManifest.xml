@@ -12,6 +12,9 @@
         android:theme="@style/Theme.Main"
         tools:targetApi="31">
 
+
+
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme"
@@ -22,6 +25,8 @@
             </intent-filter>
         </activity>
 
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -30,6 +35,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
 
         <activity
             android:name=".LoginActivity"

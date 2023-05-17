@@ -6,9 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ChartFragActivity">
 
-    <ListView
-        android:id="@+id/song_list"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:fillViewport="true"
+        >
+
+        <ListView
+            android:id="@+id/song_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </ScrollView>
+
 
 </FrameLayout>

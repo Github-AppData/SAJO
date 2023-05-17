@@ -1,7 +1,6 @@
 package com.example.main;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.Arrays;
 import java.util.List;
 import android.util.Log;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +28,19 @@ public class MainActivity extends AppCompatActivity {
     Button btn_chart, btn_study, btn_mypage;
     LinearLayout chart_layout, study_layout;
     private static final String TAG = "DBSongHelper";
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    private String mParam1;
+    private String mParam2;
+
+    public static com.example.main.ChartFragActivity newInstance(String param1, String param2) {
+        com.example.main.ChartFragActivity fragment = new com.example.main.ChartFragActivity();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
 
 
@@ -80,8 +93,10 @@ public class MainActivity extends AppCompatActivity {
                     chart_layout.setVisibility(View.VISIBLE);
                     study_layout.setVisibility(View.GONE);
 
-                    Intent chart_intent = new Intent(MainActivity.this, songActivity.class);
-                    startActivity(chart_intent); // 액티비티를 실행합니다.
+                    com.example.main.ChartFragActivity chartFragment = com.example.main.ChartFragActivity.newInstance("value1", "value2");
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.chart_frame, chartFragment);
+                    transaction.commit();
                 }
             }
         });
@@ -119,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
 
         private ListView listView; // CHART 창의 프래그먼트로 연결된 리스트뷰
 
+
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -129,24 +146,15 @@ public class MainActivity extends AppCompatActivity {
             // 리스트뷰 아이디 부여
             listView = ChartView.findViewById(R.id.song_list);
 
-            // 임시 노래 목록
-            String[][] data = {
-                    {"1st", "That's Hilarious", "Charlie Puth"},
-                    {"2nd", "Made you look", "Meghan Trainor"},
-                    {"3rd", "Off my face", "Justin Bieber"}
-            };
-            // TODO : 위에 노래 데이터 넣기
-
-            List<String[]> songList = Arrays.asList(data);
 
             // SongAdapter 객체를 생성하고 ListView의 어댑터로 설정
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                    
+
                     // TODO : Chart 에서 노래 클릭 시 Study 탭으로 해당 노래를 추가할 수 있도록 하는 로직
-                    
+                    Toast.makeText(requireContext(), "아이디가 존재않습니다.", Toast.LENGTH_SHORT);
                 }
             });
 
@@ -170,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
             // 리스트뷰 아이디 부여
             playlist_view = StudyView.findViewById(R.id.playlist_view);
 
-            // TODO : Chart 화면에서 클릭한 아이템 데이터 끌어올 수 있도록 수정
             String[][] data = {};
 
             List<String[]> playList = Arrays.asList(data);

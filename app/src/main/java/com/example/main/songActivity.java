@@ -17,7 +17,7 @@ import java.util.List;
 
 public class songActivity extends AppCompatActivity {
 
-    DBSongHelper db;
+    DBHelper dbhelper;
     ListView song_lists;
     ArrayList<String> listItem;
     ArrayAdapter adapter;
@@ -25,11 +25,11 @@ public class songActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_list);
+        setContentView(R.layout.fragment_chart_frag_activity);
 
-        song_lists = findViewById(R.id.song_lists);
+        song_lists = findViewById(R.id.song_list);
 
-        db = new DBSongHelper(this);
+        dbhelper = new DBHelper(songActivity.this, "userdata.db",null,1);
 
         viewData();
 
@@ -37,25 +37,12 @@ public class songActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String text = song_lists.getItemAtPosition(i).toString();
-                Toast.makeText(songActivity.this, ""+text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(songActivity.this, "asdasd"+text, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void viewData() {
-        List<Chart> songList = db.getAllSongs();
 
-        if(songList.isEmpty()){
-            Toast.makeText(this, "No", Toast.LENGTH_SHORT).show();
-        } else {
-            listItem = new ArrayList<>();
-            for (Chart chart : songList) {
-                listItem.add("Rank: " + chart.getRank());
-                listItem.add("Name: " + chart.getName());
-                listItem.add("Singer: " + chart.getSinger());
-            }
-            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItem);
-            song_lists.setAdapter(adapter);
-        }
     }
 }

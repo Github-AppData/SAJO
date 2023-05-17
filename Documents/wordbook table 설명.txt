@@ -1,0 +1,3 @@
+wordbook table 설명
+
+song_name 컬럼은 song 테이블과 조인 검색 쿼리를 이용해서 
