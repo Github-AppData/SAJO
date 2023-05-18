@@ -48,7 +48,7 @@
 
         <fragment
             android:id="@+id/tab_chart_frag"
-            android:name="com.example.main.ChartFragActivity"
+            android:name="com.example.main.MainActivity$ChartFragActivity"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -66,7 +66,7 @@
 
         <fragment
             android:id="@+id/tab_study_frag"
-            android:name="com.example.main.StudyFragActivity"
+            android:name="com.example.main.MainActivity$StudyFragActivity"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -89,6 +89,7 @@
             android:layout_weight="1"
             android:backgroundTint="#0C2840"
             android:onClick="onTabClicked"
+            android:textSize="15sp"
             android:text="CHART" />
 
         <Button
@@ -98,7 +99,8 @@
             android:layout_weight="1"
             android:backgroundTint="#0C2840"
             android:onClick="onTabClicked"
-            android:text="STUDY" />
+            android:textSize="15sp"
+            android:text="Playlist" />
     </LinearLayout>
 
 </RelativeLayout>

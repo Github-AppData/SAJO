@@ -22,13 +22,19 @@ class DBHelper extends SQLiteOpenHelper {
     private SQLiteDatabase DataBase;
 
     private static String DB_TABLE = "song";
+    private static String DB_TABLE2 = "wordbook";
 
-    // columns name
+    // Song columns name
     private static String col_id = "id";
     private static String col_rank = "rank";
     private static String col_name = "name";
     private static String col_singer = "singer";
     private static String col_lyrics = "lyrics";
+    private static String col_like = "is_like";
+
+    // wordbook columns name
+    private static String col_mean = "mean";
+
     private static String col_lyrics_translation = "lyrics_translation";
 
 
@@ -157,6 +163,35 @@ class DBHelper extends SQLiteOpenHelper {
         // 결과가 없으면 중복된 아이디가 없다는 뜻입니다.
         cursor.close();
         return false;
+    }
+
+
+
+    public List<Playlist> getSongs2(){
+        List<Playlist> playlists = new ArrayList<>();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // '1' 이라는 숫자가 좋아요입니다. 그래서 col_like 컬럼 값의 1인 것만, col_rank, col_name, col_singer을 결과를 가져온다.
+        String query = " SELECT " + col_rank + ", " + col_name + ", " + col_singer +
+                " FROM " + DB_TABLE + " Where " + col_like + "= 1" ;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int rank = cursor.getInt(0); // Index 1 is rank
+                String name = cursor.getString(1); // Index 2 is name
+                String singer = cursor.getString(2); // Index 3 is singer
+
+                Playlist playlist = new Playlist(rank, name, singer);
+                playlists.add(playlist);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return playlists;
     }
 
     public List<Chart> getAllSongs() {

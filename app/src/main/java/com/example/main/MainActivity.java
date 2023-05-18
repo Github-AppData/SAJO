@@ -113,6 +113,11 @@ public class MainActivity extends AppCompatActivity {
                     btn_chart.setTextColor(Color.WHITE);
                     chart_layout.setVisibility(View.GONE);
                     study_layout.setVisibility(View.VISIBLE);
+
+                    com.example.main.StudyFragActivity studyFragment = com.example.main.StudyFragActivity.newInstance("value1", "value2");
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.study_frame, studyFragment);
+                    transaction.commit();
                 }
             }
         });

@@ -18,7 +18,7 @@ public class PlaylistAdapter extends ArrayAdapter<String[]> {
         super(context, 0, songData);
     }
 
-    @Override
+    /*@Override
     public View getView(int position, View convertView, ViewGroup parent) {
         String[] playlist = getItem(position);
 
@@ -32,5 +32,5 @@ public class PlaylistAdapter extends ArrayAdapter<String[]> {
 
 
         return convertView;
-    }
+    }*/
 }

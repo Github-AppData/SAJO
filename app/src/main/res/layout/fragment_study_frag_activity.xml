@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0C2840"
     tools:context=".StudyFragActivity">
 
+    <!-- TODO : 리스트 마다 좋아요 버튼 추가해서, 좋아요 누르면, playlist로 이동할 수 있도록 -->
     <ListView
         android:id="@+id/playlist_view"
         android:layout_width="match_parent"

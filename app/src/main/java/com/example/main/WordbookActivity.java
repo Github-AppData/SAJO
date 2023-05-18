@@ -1,19 +1,23 @@
 package com.example.main;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
 
 public class WordbookActivity extends AppCompatActivity {
 
     // 선언
     Button btn_back_to_mypage;
     ListView my_word;
+    SQLiteDatabase db;
+    DBHelper dbhelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,14 @@ public class WordbookActivity extends AppCompatActivity {
                 startActivity(intent_mp);
             }
         });
+
+        // wordbook 리스트
+        dbhelper = new DBHelper(this, "userdata.db", null, 1);
+        db = dbhelper.getWritableDatabase();
+        dbhelper.onCreate(db);
+        db.close();
+
+        List<Wordbook> wordbook = dbhelper.ge
 
         // TODO : 리스트뷰의 아이템을 길게 클릭할 시 해당 단어가 리스트뷰에서 삭제될 수 있도록
 
