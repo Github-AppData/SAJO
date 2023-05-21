@@ -23,10 +23,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link StudyFragActivity#newInstance} factory method to
+ * Use the {@link PlaylistFragActivity#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StudyFragActivity extends Fragment {
+public class PlaylistFragActivity extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,7 +42,7 @@ public class StudyFragActivity extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public StudyFragActivity() {
+    public PlaylistFragActivity() {
         // Required empty public constructor
     }
 
@@ -55,8 +55,8 @@ public class StudyFragActivity extends Fragment {
      * @return A new instance of fragment StudyFragActivity.
      */
     // TODO: Rename and change types and number of parameters
-    public static StudyFragActivity newInstance(String param1, String param2) {
-        StudyFragActivity fragment = new StudyFragActivity();
+    public static PlaylistFragActivity newInstance(String param1, String param2) {
+        PlaylistFragActivity fragment = new PlaylistFragActivity();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -77,7 +77,7 @@ public class StudyFragActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_study_frag_activity, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_playlist_frag_activity, container, false);
 
         ListView playListView = rootView.findViewById(R.id.playlist_view);
 

@@ -42,6 +42,15 @@ public class MainActivity extends AppCompatActivity {
         return fragment;
     }
 
+    public static com.example.main.PlaylistFragActivity newInstance2(String mparam1, String mparam2) {
+        com.example.main.PlaylistFragActivity fragment = new com.example.main.PlaylistFragActivity();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, mparam1);
+        args.putString(ARG_PARAM2, mparam2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
 
     @Override
@@ -64,9 +73,12 @@ public class MainActivity extends AppCompatActivity {
         ChartFragActivity chartFragActivity = new ChartFragActivity();
         fragmentTransaction.add(R.id.tab_chart_frag, chartFragActivity);
 
-        // StudyFragActivity 추가
-        StudyFragActivity studyFragActivity = new StudyFragActivity();
-        fragmentTransaction.add(R.id.tab_study_frag, studyFragActivity);
+        /*// WordbookFragActivity 추가
+        WordbookFragActivity wordbookFragActivity = new WordbookFragActivity();
+        fragmentTransaction.add(R.id.tab_word_frag, wordbookFragActivity);*/
+
+        PlaylistFragActivity playlistFragActivity = new PlaylistFragActivity();
+        fragmentTransaction.add(R.id.tab_playlist_frag, playlistFragActivity);
 
         // transaction 실행
         fragmentTransaction.commit();
@@ -78,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
         chart_layout = (LinearLayout) findViewById(R.id.chart_layout); // 차트 레이아웃
         study_layout = (LinearLayout) findViewById(R.id.study_layout); // 스터디 레이아웃
-
 
         // 차트 버튼 클릭 시 색상 변경 및 레이아웃 변경
         btn_chart.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     chart_layout.setVisibility(View.VISIBLE);
                     study_layout.setVisibility(View.GONE);
 
+
                     com.example.main.ChartFragActivity chartFragment = com.example.main.ChartFragActivity.newInstance("value1", "value2");
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.chart_frame, chartFragment);
@@ -101,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // 스터디 버튼 클릭 시 색상 변경 및 레이아웃 변경
+        // playlist 버튼 클릭 시 색상 변경 및 레이아웃 변경
         btn_study.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,9 +126,9 @@ public class MainActivity extends AppCompatActivity {
                     chart_layout.setVisibility(View.GONE);
                     study_layout.setVisibility(View.VISIBLE);
 
-                    com.example.main.StudyFragActivity studyFragment = com.example.main.StudyFragActivity.newInstance("value1", "value2");
+                    com.example.main.PlaylistFragActivity playlistFragment = com.example.main.PlaylistFragActivity.newInstance("value1", "value2");
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.study_frame, studyFragment);
+                    transaction.replace(R.id.playlist_frame, playlistFragment);
                     transaction.commit();
                 }
             }
@@ -138,8 +150,6 @@ public class MainActivity extends AppCompatActivity {
     public static class ChartFragActivity extends Fragment {
 
         private ListView listView; // CHART 창의 프래그먼트로 연결된 리스트뷰
-
-
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -169,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static class StudyFragActivity extends Fragment {
+    public static class PlaylistFragActivity extends Fragment {
 
         private ListView playlist_view; // STUDY 창의 프래그먼트로 연결된 리스트뷰
 
@@ -178,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
 
             // study 레이아웃 파일 내용이 main 레이아웃 파일의 프래그먼트 안으로
-            View StudyView = inflater.inflate(R.layout.fragment_study_frag_activity, container, false);
+            View StudyView = inflater.inflate(R.layout.fragment_playlist_frag_activity, container, false);
 
             // 리스트뷰 아이디 부여
             playlist_view = StudyView.findViewById(R.id.playlist_view);

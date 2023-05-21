@@ -1,167 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="#0C2840"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    tools:context=".MypageActivity" >
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mypage_logo_layout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".MypageActivity"
+    android:background="#0C2840"
+    >
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#0C2840"
+        android:id="@+id/mypage_layout"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="10dp"
+
         >
-
         <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/material_dynamic_neutral20"
+            android:layout_margin="7dp"
             android:id="@+id/btn_go_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#0C2840"
-            android:text="BACK"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- 로고 이미지 부분 -->
+            android:text="back"
+            >
+        </Button>
         <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/main_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:src="@drawable/logo2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/btn_go_main"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_margin="10dp"
+            >
+
+        </ImageView>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-    <!-- 내 정보 라벨 -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/mypage_logo_layout"
-        tools:layout_editor_absoluteX="-16dp">
-
+        >
         <TextView
-            android:id="@+id/user_info_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/user_info_label"
             android:text="내 정보"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="95dp"
+            android:layout_marginLeft="176dp"
+            >
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </TextView>
 
-    <!-- 사용자 이메일과 이름 표시 -->
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/user_info_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="이메일 : "
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="20dp"
+        >
 
+    </TextView>
     <TextView
         android:id="@+id/user_info_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:text="이름 : "
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_info_email" />
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="180dp"
+        android:layout_marginLeft="20dp"
+        >
 
+    </TextView>
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/user_info_email_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
         android:text="로그인한 유저의 이메일"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="100dp"
+        >
+
+    </TextView>
 
     <TextView
-        android:id="@+id/user_info_name_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="15dp"
+        android:id="@+id/user_info_name_data"
         android:text="로그인한 유저의 이름"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_info_email" />
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_marginTop="180dp"
+        android:layout_marginLeft="100dp"
+        >
+
+    </TextView>
 
     <!-- 비밀번호 변경 버튼 -->
     <Button
-        android:id="@+id/btn_wordbook"
+        android:id="@+id/btn_to_wordbook"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="#78EEFD"
-        android:padding="15dp"
         android:text="나의 단어장"
-        android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_change_password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- 비밀번호 변경 버튼 -->
+        android:textStyle="bold"
+        android:backgroundTint="#78EEFD"
+        android:textColor="@color/black"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="480dp"
+        android:padding="15dp"
+        >
+    </Button>
     <Button
-        android:id="@+id/btn_change_password"
+        android:id="@+id/btn_change_password_launch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="#16D6F7"
-        android:padding="15dp"
         android:text="비밀번호 변경"
-        android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textStyle="bold"
+        android:backgroundTint="#16D6F7"
+        android:textColor="@color/black"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="550dp"
+        android:padding="15dp"
+        >
+    </Button>
 
-    <!-- 로그아웃 버튼 -->
     <Button
         android:id="@+id/btn_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="#2580CF"
-        android:padding="15dp"
         android:text="로그아웃"
-        android:textColor="@android:color/black"
+        android:backgroundTint="#2580CF"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="620dp"
+        android:padding="15dp"
+        >
+    </Button>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/wordbook_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical"
+        >
+        <fragment
+            android:id="@+id/tab_word_frag"
+            android:name="com.example.main.WordbookActivity$WordbookFragActivity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+</RelativeLayout>

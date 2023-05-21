@@ -7,18 +7,31 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class MypageActivity extends AppCompatActivity {
 
     TextView user_info_email_data, user_info_name_data;
     Button btn_wordbook, btn_change_password, btn_logout, btn_go_main;
+    LinearLayout mypage_layout, wordbook_layout;
     DBHelper dbhelper;
     SQLiteDatabase db;
     @Override
@@ -31,14 +44,24 @@ public class MypageActivity extends AppCompatActivity {
 
         user_info_email_data = (TextView) findViewById(R.id.user_info_email_data) ; // 유저 이메일 정보
         user_info_name_data = (TextView) findViewById(R.id.user_info_name_data) ; // 유저명 정보
-        btn_change_password = (Button) findViewById(R.id.btn_change_password); // 비밀번호 변경 버튼
+        btn_change_password = (Button) findViewById(R.id.btn_change_password_launch); // 비밀번호 변경 버튼
         btn_logout = (Button) findViewById(R.id.btn_logout); // 로그아웃 버튼
-        btn_wordbook = (Button) findViewById(R.id.btn_wordbook); // 나의 단어장 버튼
+        btn_wordbook = (Button) findViewById(R.id.btn_to_wordbook); // 나의 단어장 버튼
         btn_go_main = (Button) findViewById(R.id.btn_go_main); // 메인으로 돌아가는 버튼
+
+        wordbook_layout = findViewById(R.id.wordbook_layout);
+        mypage_layout = findViewById(R.id.mypage_layout);
 
         // 내 정보 텍스트뷰
         user_info_email_data.setText(user.getUser_email());
         user_info_name_data.setText(user.getUser_name());
+
+        // 프래그먼트 레이아웃 추가
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        WordbookFragActivity wordbookFragActivity = new WordbookFragActivity();
+        fragmentTransaction.add(R.id.tab_word_frag, wordbookFragActivity);
 
         // 로그아웃 버튼 클릭 시 로그아웃 프로세스 진행
         btn_logout.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +106,15 @@ public class MypageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent_wd = new Intent(MypageActivity.this, WordbookActivity.class);
                 startActivity(intent_wd); // 나의 단어장 화면으로 이동함
+                /*com.example.main.WordbookFragActivity wordFragment = com.example.main.WordbookFragActivity.newInstance("value1", "value2");
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.wordbook_frame, wordFragment);
+                transaction.commit();
+
+                Intent wordbook_intent = new Intent(MypageActivity.this, WordbookActivity.class);
+                startActivity(wordbook_intent); // 액티비티를 실행합니다.*/
+
+
             }
         });
 
@@ -104,6 +136,9 @@ public class MypageActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
+
 
 }

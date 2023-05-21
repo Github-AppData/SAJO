@@ -135,6 +135,7 @@ class DBHelper extends SQLiteOpenHelper {
         db.execSQL("UPDATE '" + db_name + "' SET id = '" + id + "',name = '" + name + "',pwd = '" + pwd + "',email = '" + email + "' WHERE id = '" + id + "'");
     }
 
+    // 이메일 체크
     public boolean checkEmailExist(SQLiteDatabase db,String email) {
         // SQL 쿼리문을 작성합니다.
         String query = "SELECT * FROM USER WHERE email = '" + email + "';";
@@ -150,6 +151,7 @@ class DBHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    // 아이디 체크 메서드
     public boolean checkIdExist(SQLiteDatabase db,String email) {
         // SQL 쿼리문을 작성합니다.
         String query = "SELECT * FROM USER WHERE email = '" + email + "';";
@@ -165,8 +167,8 @@ class DBHelper extends SQLiteOpenHelper {
         return false;
     }
 
-
-
+    // 플레이리스트 관련 메서드
+    // userdata.db에서 쿼리를 수행한 뒤에, 쿼리의 결과를 반환하는 메서드입니다.
     public List<Playlist> getSongs2(){
         List<Playlist> playlists = new ArrayList<>();
 
@@ -174,7 +176,7 @@ class DBHelper extends SQLiteOpenHelper {
 
         // '1' 이라는 숫자가 좋아요입니다. 그래서 col_like 컬럼 값의 1인 것만, col_rank, col_name, col_singer을 결과를 가져온다.
         String query = " SELECT " + col_rank + ", " + col_name + ", " + col_singer +
-                " FROM " + DB_TABLE + " Where " + col_like + "= 1" ;
+                " FROM " + DB_TABLE + " Where " + col_like + " = 1" ;
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -194,6 +196,37 @@ class DBHelper extends SQLiteOpenHelper {
         return playlists;
     }
 
+    // 단어장 관련 메서드
+    // 설명은 170번째 줄 하고 동일
+    // TODO : 단어 검색창에서 즐겨찾기 버튼을 누르면, wordbook list에 들어가는 기능 추가 해야 됩니다.
+    public List<Wordbook> getWord(){
+        List<Wordbook> wordbook = new ArrayList<>();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // '1' 이라는 숫자가 좋아요입니다. 그래서 col_like 컬럼 값의 1인 것만, col_rank, col_name, col_singer을 결과를 가져온다.
+        String query = " SELECT " + col_name + ", " + col_mean +
+                " FROM " + DB_TABLE2;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String name = cursor.getString(0); // Index 1 is name
+                String mean = cursor.getString(1); // Index 2 is mean
+
+                Wordbook wordbook1 = new Wordbook (name, mean);
+                wordbook.add(wordbook1);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return wordbook;
+    }
+
+    // 차트 관련 메서드 
+    // 설명은 170번째 줄 설명하고 비슷함.
     public List<Chart> getAllSongs() {
         List<Chart> songList = new ArrayList<>();
 
@@ -218,6 +251,7 @@ class DBHelper extends SQLiteOpenHelper {
 
         return songList;
     }
+
 
     public void getUserData(SQLiteDatabase db, _USER user, String TABLE_NAME, String id)
     {
