@@ -92,15 +92,10 @@ public class WordbookFragActivity extends Fragment {
                 TextView artistTextView = convertView.findViewById(R.id.word);
                 TextView nameTextView = convertView.findViewById(R.id.word_mean);
 
-
                 Wordbook wordbook = getItem(position);
 
                 nameTextView.setText("" + wordbook.getName());
                 artistTextView.setText("" + wordbook.getMean());
-
-
-
-
 
                 return convertView;
             }

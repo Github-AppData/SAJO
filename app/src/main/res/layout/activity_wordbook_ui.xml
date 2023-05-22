@@ -43,6 +43,8 @@
         </RelativeLayout>
     </LinearLayout>
 
+
+    <!--여기가 fragment 부분이다.-->
     <LinearLayout
         android:id="@+id/wordbook_layout"
         android:layout_width="match_parent"
@@ -52,11 +54,10 @@
         >
         <fragment
             android:id="@+id/tab_word_frag"
-            android:name="com.example.main.WordbookActivity$WordbookFragActivity"
+            android:name="com.example.main.WordbookFragActivity"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/btn_word_layout"

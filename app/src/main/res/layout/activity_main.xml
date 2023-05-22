@@ -37,6 +37,8 @@
     </LinearLayout>
 
     <!-- chart 버튼 클릭 시 표시되는 화면의 프래그먼트 -->
+    <!-- TODO : 차트에 원하는 곡이 없을 경우, 버튼을 통해 신청할 수 있어야 한다. (activity_main에서 floationgactionButton으로 하면, 좋을 듯함. - 보기에도, 가능적인 측면으로도...) -->
+
     <LinearLayout
         android:id="@+id/chart_layout"
         android:layout_width="match_parent"

@@ -2,6 +2,7 @@ package com.example.main;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,10 +29,6 @@ public class WordbookActivity extends AppCompatActivity {
     Button btn_mypage_back;
     Button btn_word;
     LinearLayout wordbook_layout;
-    ListView my_word;
-    SQLiteDatabase db;
-    DBHelper dbhelper;
-    TextView textView_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +58,13 @@ public class WordbookActivity extends AppCompatActivity {
             }
         });
 
-        // Word 버튼 클릭 시, 리스트 뷰를 불러온다. - setVisible 세팅해준다.
+        // Word 버튼 클릭 시
         btn_word.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                wordbook_layout.setVisibility(View.VISIBLE);
-                Toast.makeText(WordbookActivity.this, "ㅁㄴㅇㅁㄴㅇ.", Toast.LENGTH_SHORT).show();
 
-                /*com.example.main.WordbookFragActivity wordFragment = com.example.main.WordbookFragActivity.newInstance("value1", "value2");
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.wordbook_frame, wordFragment);
-                transaction.commit();*/
+                btn_word.setBackgroundColor(Color.CYAN);
+                btn_word.setTextColor(Color.BLACK);
             }
         });
 

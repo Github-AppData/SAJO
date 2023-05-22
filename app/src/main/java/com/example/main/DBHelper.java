@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,6 +18,7 @@ import java.util.List;
 class DBHelper extends SQLiteOpenHelper {
 
     private static String db_Path = "";
+    private static String TAGG = "DBHelper";
     private static String db_Name = "userdata.db";
     private Context mContext;
     private SQLiteDatabase DataBase;
@@ -204,7 +206,7 @@ class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // '1' 이라는 숫자가 좋아요입니다. 그래서 col_like 컬럼 값의 1인 것만, col_rank, col_name, col_singer을 결과를 가져온다.
+        // '1' 이라는 숫자가 좋아요입니다. - col_rank, col_name, col_singer을 결과를 가져온다.
         String query = " SELECT " + col_name + ", " + col_mean +
                 " FROM " + DB_TABLE2;
         Cursor cursor = db.rawQuery(query, null);
