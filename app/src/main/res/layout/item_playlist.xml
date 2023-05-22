@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:padding="16dp"
+        >
+        <TextView
+            android:id="@+id/playlist_song_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textSize="19sp"
+            android:textColor="@color/black"
+            android:text="노래 제목" />
+
+        <TextView
+            android:id="@+id/playlist_song_artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="150dp"
+            android:textSize="15sp"
+            android:text="가수 이름" />
+
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>
