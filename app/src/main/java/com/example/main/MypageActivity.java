@@ -49,7 +49,7 @@ public class MypageActivity extends AppCompatActivity {
         btn_wordbook = (Button) findViewById(R.id.btn_to_wordbook); // 나의 단어장 버튼
         btn_go_main = (Button) findViewById(R.id.btn_go_main); // 메인으로 돌아가는 버튼
 
-        wordbook_layout = findViewById(R.id.wordbook_layout);
+
         mypage_layout = findViewById(R.id.mypage_layout);
 
         // 내 정보 텍스트뷰
@@ -105,8 +105,11 @@ public class MypageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent_wd = new Intent(MypageActivity.this, WordbookActivity.class);
+
                 startActivity(intent_wd); // 나의 단어장 화면으로 이동함
-                /*com.example.main.WordbookFragActivity wordFragment = com.example.main.WordbookFragActivity.newInstance("value1", "value2");
+
+                /*
+                com.example.main.WordbookFragActivity wordFragment = com.example.main.WordbookFragActivity.newInstance("value1", "value2");
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.wordbook_frame, wordFragment);
                 transaction.commit();

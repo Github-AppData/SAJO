@@ -26,8 +26,10 @@ import java.util.List;
  * create an instance of this fragment.
  */
 
-public class WordbookFragActivity extends Fragment {
 
+
+public class WordbookFragActivity extends Fragment {
+    private static final String TAG = "WordbookFragActivity";
 
     SQLiteDatabase db;
     DBHelper dbhelper;
@@ -74,6 +76,7 @@ public class WordbookFragActivity extends Fragment {
         List<Wordbook> wordbooks = dbhelper.getWord();
 
         if(wordbooks.isEmpty()){
+            Log.d(TAG, "데이터가 없습니다.");
             Toast.makeText(requireContext(),"데이터가 없습니다.", Toast.LENGTH_SHORT).show();
         }
 

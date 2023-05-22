@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,8 +25,9 @@ import java.util.List;
 public class WordbookActivity extends AppCompatActivity {
 
     // 선언
-    Button btn_back_to_mypage;
-    Button btn_word_study;
+    Button btn_mypage_back;
+    Button btn_word;
+    LinearLayout wordbook_layout;
     ListView my_word;
     SQLiteDatabase db;
     DBHelper dbhelper;
@@ -34,17 +36,42 @@ public class WordbookActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wordbook); // TODO : 수정
+        setContentView(R.layout.activity_wordbook_ui); // TODO : 수정
+
+        // Mypage에서 보낸 데이터 받음
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        WordbookFragActivity wordbookFragActivity = new WordbookFragActivity();
+        fragmentTransaction.add(R.id.tab_word_frag, wordbookFragActivity);
 
         // back 버튼 아이디 부여
-        btn_back_to_mypage = (Button) findViewById(R.id.btn_back_to_mypage); // BACK 버튼
+        btn_mypage_back = (Button) findViewById(R.id.btn_mypage_back); // BACK 버튼
+        btn_word = (Button) findViewById(R.id.btn_word); // BACK 버튼
+        wordbook_layout = findViewById(R.id.wordbook_layout);
 
-
-        btn_back_to_mypage.setOnClickListener(new View.OnClickListener() {
+        btn_mypage_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent_mp = new Intent(WordbookActivity.this, MypageActivity.class);
                 startActivity(intent_mp);
+            }
+        });
+
+        // Word 버튼 클릭 시, 리스트 뷰를 불러온다. - setVisible 세팅해준다.
+        btn_word.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                wordbook_layout.setVisibility(View.VISIBLE);
+                Toast.makeText(WordbookActivity.this, "ㅁㄴㅇㅁㄴㅇ.", Toast.LENGTH_SHORT).show();
+
+                /*com.example.main.WordbookFragActivity wordFragment = com.example.main.WordbookFragActivity.newInstance("value1", "value2");
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.wordbook_frame, wordFragment);
+                transaction.commit();*/
             }
         });
 

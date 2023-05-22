@@ -155,19 +155,7 @@
         >
     </Button>
 
-    <LinearLayout
-        android:id="@+id/wordbook_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="vertical"
-        >
-        <fragment
-            android:id="@+id/tab_word_frag"
-            android:name="com.example.main.WordbookActivity$WordbookFragActivity"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+
 
 
 </RelativeLayout>
