@@ -1,0 +1,108 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <!-- 로고 이미지와 마이페이지로 이동하는 버튼을 포함한 레이아웃 -->
+    <LinearLayout
+        android:id="@+id/main_logo_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0C2840"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/main_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/logo2" />
+
+            <Button
+                android:id="@+id/btn_mypage"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:backgroundTint="#0C2840"
+                android:text="MY" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- chart 버튼 클릭 시 표시되는 화면의 프래그먼트 -->
+    <!-- TODO : 차트에 원하는 곡이 없을 경우, 버튼을 통해 신청할 수 있어야 한다. (activity_main에서 floationgactionButton으로 하면, 좋을 듯함. - 보기에도, 가능적인 측면으로도...) -->
+
+    <LinearLayout
+        android:id="@+id/chart_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_layout"
+        android:layout_below="@id/main_logo_layout"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <fragment
+            android:id="@+id/tab_chart_frag"
+            android:name="com.example.main.MainActivity$ChartFragActivity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <!-- study 버튼 클릭 시 표시되는 화면의 프래그먼트 -->
+    <LinearLayout
+        android:id="@+id/study_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_layout"
+        android:layout_below="@id/main_logo_layout"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <fragment
+            android:id="@+id/tab_playlist_frag"
+            android:name="com.example.main.MainActivity$PlaylistFragActivity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <!-- 화면을 이동할 수 있는 버튼이 포함된 레이아웃 -->
+    <LinearLayout
+        android:id="@+id/btn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
+        android:background="#0C2840"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_chart"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="#0C2840"
+            android:onClick="onTabClicked"
+            android:textSize="15sp"
+            android:text="CHART" />
+
+        <Button
+            android:id="@+id/btn_study"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="#0C2840"
+            android:onClick="onTabClicked"
+            android:textSize="15sp"
+            android:text="Playlist" />
+    </LinearLayout>
+
+</RelativeLayout>
