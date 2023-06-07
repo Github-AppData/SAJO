@@ -25,6 +25,7 @@ class DBHelper extends SQLiteOpenHelper {
 
     private static String DB_TABLE = "song";
     private static String DB_TABLE2 = "wordbook";
+    private static String DB_TABLE3 = "word_dictionary";
 
     // Song columns name
     private static String col_id = "id";
@@ -231,6 +232,27 @@ class DBHelper extends SQLiteOpenHelper {
         db.close();
 
         return wordbook;
+    }
+
+    // 단어 사전에서 해당 단어에 대한 의미를 찾는 메서드
+    public String getWordMean(String word){
+        String mean = "현재 단어사전에 등록되어 있지 않은 단어입니다.";
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // '1' 이라는 숫자가 좋아요입니다. 그래서 col_like 컬럼 값의 1인 것만, col_rank, col_name, col_singer을 결과를 가져온다.
+        String query = " SELECT " + col_mean +
+                " FROM " + DB_TABLE3 + " Where " + col_name + " = " + word;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToNext()) {
+            mean = cursor.getString(0);
+
+            cursor.close();
+            db.close();
+
+            return mean;
+        }
+        return mean;
     }
 
     // 차트 관련 메서드 

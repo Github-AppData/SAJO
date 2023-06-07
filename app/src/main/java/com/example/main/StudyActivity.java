@@ -1,6 +1,7 @@
 package com.example.main;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +25,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     // 선언
 
     private MediaPlayer mediaPlayer = new MediaPlayer();                        // 음악 플레이를 위한 클래스
-    Button btn_go_study, btn_to_wordbook, btn_prev, btn_pause, btn_next;
+    Button btn_go_study, btn_to_wordbook, btn_prev, btn_pause, btn_next, btn_search;
     TextView musicTitle, lyricsTextView, wordDefinition;
     EditText searchWord;
     SeekBar musicSeekBar;
@@ -33,7 +34,9 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     private int position;                                   // 현재 음악 번호 및 위치
     boolean isPlaying = true;                               // 플레이 중인지 아닌지 switch 변수
     private ProgressUpdate progressUpdate;                  // 음악 process 실시간 출력하는 Thread
-    private boolean playSwitch = true;
+    private boolean playSwitch = true;                      // 음악 실행 여부 확인
+    SQLiteDatabase db;
+    DBHelper dbhelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         // 아이디 부여
         btn_go_study = (Button) findViewById(R.id.btn_go_study); // BACK 버튼
         btn_to_wordbook = (Button) findViewById(R.id.btn_to_wordbook); // 검색 결과를 나의 단어장으로 이동시키는 버튼
+        btn_search = (Button) findViewById(R.id.btn_search); // 단어 의미 검색 버튼
 
         btn_prev = (Button) findViewById(R.id.btn_prev); // 이전 곡 버튼
         btn_pause = (Button) findViewById(R.id.btn_pause); // 재생 및 일시정지 버튼
@@ -58,6 +62,11 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
 
         wordDictionary = (ScrollView) findViewById(R.id.wordDictionary); // 단어 검색 결과 텍스트뷰가 포함된 스크롤뷰
         wordDefinition = (TextView) findViewById(R.id.wordDefinition); // 단어 검색 결과 텍스트뷰
+
+        dbhelper = new DBHelper(this, "userdata.db", null, 1);
+        db = dbhelper.getWritableDatabase();
+        dbhelper.onCreate(db);
+        db.close();
 
         btn_prev.setOnClickListener(this);
         btn_next.setOnClickListener(this);
@@ -90,9 +99,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        // 그 외 TODOLIST
-        // TODO : 노래제목 텍스트뷰 및 노래가사 텍스트뷰에 노래 정보가 표시될 수 있도록
-
         // TODO : 노래 길이에 맞춰 씨크바가 움직일 수 있도록
         // seekBar가 계속 증가가 될텐데 그때마다 이벤트 발생시켜줌
         musicSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -116,7 +122,16 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
+
         // TODO : 에디트뷰에 단어 입력 후 "검색" 버튼을 누르면 단어 검색 결과 텍스트뷰에 해당 단어의 뜻이 나타날 수 있도록
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 현재 에러남 : while compiling: SELECT mean FROM word_dictionary Where name = mm SQL문 에러인 듯 함 해결해야함
+                String mean = dbhelper.getWordMean(searchWord.getText().toString());
+                wordDefinition.setText(mean);
+            }
+        });
 
     }
 
@@ -160,7 +175,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             Log.v("musicActivity", "제목 보여줌");
             Log.v("musicActivity",   playlist.getLyrics() + " 보여줌");
             Log.v("musicActivity", "음악 " + R.raw.memories + " 새로 생성해줌");
-            Log.v("musicActivity", "음악 " + R.raw.peaches + " 새로 ㅁ생성해줌");
+            Log.v("musicActivity", "음악 " + R.raw.peaches + " 새로 생성해줌");
             Log.v("musicActivity", "음악 " + R.raw.abcdefu + " 새로 생성해줌");
             Log.v("musicActivity", "음악 " + R.raw.painkiller + " 새로 생성해줌");
             mediaPlayer.reset(); // 음악 재생하기 전에 초기화
