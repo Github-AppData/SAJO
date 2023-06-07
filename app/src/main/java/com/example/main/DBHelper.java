@@ -32,6 +32,7 @@ class DBHelper extends SQLiteOpenHelper {
     private static String col_name = "name";
     private static String col_singer = "singer";
     private static String col_lyrics = "lyrics";
+    private static String col_musicResId = "music_resid";
     private static String col_like = "is_like";
 
     // wordbook columns name
@@ -114,7 +115,7 @@ class DBHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO '" + db_name + "' VALUES('" + id + "','" + name + "','" + pwd + "', '" + email + "')");
     }
 
-    public boolean insertData(int id, int rank, String name, String singer, String lyrics, String lyrics_translation)
+    public boolean insertData(int id, int rank, String name, String singer, String lyrics, String lyrics_translation, String music_resid)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -171,23 +172,28 @@ class DBHelper extends SQLiteOpenHelper {
 
     // 플레이리스트 관련 메서드
     // userdata.db에서 쿼리를 수행한 뒤에, 쿼리의 결과를 반환하는 메서드입니다.
-    public List<Playlist> getSongs2(){
-        List<Playlist> playlists = new ArrayList<>();
+    public ArrayList<Playlist> getSongs2(){
+        ArrayList<Playlist> playlists = new ArrayList<>();
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         // '1' 이라는 숫자가 좋아요입니다. 그래서 col_like 컬럼 값의 1인 것만, col_rank, col_name, col_singer을 결과를 가져온다.
-        String query = " SELECT " + col_rank + ", " + col_name + ", " + col_singer +
+        String query = " SELECT " + col_id + ", " + col_rank + ", " + col_name + ", " + col_singer + ", " + col_lyrics + ", " + col_musicResId +
                 " FROM " + DB_TABLE + " Where " + col_like + " = 1" ;
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
-                int rank = cursor.getInt(0); // Index 1 is rank
-                String name = cursor.getString(1); // Index 2 is name
-                String singer = cursor.getString(2); // Index 3 is singer
+                int id = cursor.getInt(0); // Index 1 is id
+                int rank = cursor.getInt(1); // Index 2 is rank
+                String name = cursor.getString(2); // Index 3 is name
+                String singer = cursor.getString(3); // Index 4 is singer
+                String lyrics = cursor.getString(4); // Index 5 is singer
+                int musicResId = cursor.getInt(5); // Index 6 is singer
 
-                Playlist playlist = new Playlist(rank, name, singer);
+                Playlist playlist = new Playlist(id, rank, name, singer);
+                playlist.setLyrics(lyrics);
+                playlist.setMusicResId(musicResId);
                 playlists.add(playlist);
             } while (cursor.moveToNext());
         }

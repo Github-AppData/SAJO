@@ -117,26 +117,34 @@
         android:id="@+id/lyricsScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/musicPlayerContainer">
 
-        <TextView
-            android:id="@+id/lyricsTextView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="여기에 가사 삽입"
-            android:textColor="@color/black" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lyricsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="여기에 가사 삽입"
+                android:textColor="@color/black" />
+        </LinearLayout>
 
     </ScrollView>
 
     <!-- 단어 검색 사전 부분 레이아웃 -->
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="#EDEAEA"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/wordResult">
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,7 +1,9 @@
 package com.example.main;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,14 +17,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.w3c.dom.Text;
 
-public class StudyActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class StudyActivity extends AppCompatActivity implements View.OnClickListener {
 
     // 선언
+
+    private MediaPlayer mediaPlayer = new MediaPlayer();                        // 음악 플레이를 위한 클래스
     Button btn_go_study, btn_to_wordbook, btn_prev, btn_pause, btn_next;
     TextView musicTitle, lyricsTextView, wordDefinition;
     EditText searchWord;
     SeekBar musicSeekBar;
     ScrollView lyricsScrollView, wordDictionary;
+    private ArrayList<Playlist> list;                       // 음악 리스트
+    private int position;                                   // 현재 음악 번호 및 위치
+    boolean isPlaying = true;                               // 플레이 중인지 아닌지 switch 변수
+    private ProgressUpdate progressUpdate;                  // 음악 process 실시간 출력하는 Thread
+    private boolean playSwitch = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +59,20 @@ public class StudyActivity extends AppCompatActivity {
         wordDictionary = (ScrollView) findViewById(R.id.wordDictionary); // 단어 검색 결과 텍스트뷰가 포함된 스크롤뷰
         wordDefinition = (TextView) findViewById(R.id.wordDefinition); // 단어 검색 결과 텍스트뷰
 
+        btn_prev.setOnClickListener(this);
+        btn_next.setOnClickListener(this);
+        btn_pause.setOnClickListener(this);
+
+        // 화면 이동 완료 되었으면 id Toast 메시지 띄워주기
+        Intent intent = getIntent();
+        position = intent.getIntExtra("position", 0); // 음악 재생하는 위치 가져오기
+        list = (ArrayList<Playlist>) intent.getSerializableExtra("playlist"); // 재생할 모든 음악 가져오기
+
+        // 해당 번호의 음악 재생하기
+        playMusic(list.get(position));
+        progressUpdate = new ProgressUpdate();
+        progressUpdate.start();
+
         // back 버튼 클릭 시 음악 플레이어 화면에서 다시 메인 화면으로 이동
         btn_go_study.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,34 +90,132 @@ public class StudyActivity extends AppCompatActivity {
             }
         });
 
-        // 이전 곡으로
-        btn_prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO : 버튼 클릭 시 STUDY 리스트에 존재하는 노래 중 이전 곡으로 이동
-            }
-        });
-
-        // 재생 및 일시정지
-        btn_pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO : 버튼 클릭 시 STUDY 리스트에 존재하는 노래 중 이전 곡으로 이동
-            }
-        });
-
-        // 다음 곡으로
-        btn_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO : 버튼 클릭 시 STUDY 리스트에 존재하는 노래 중 다음 곡으로 이동
-            }
-        });
-
         // 그 외 TODOLIST
         // TODO : 노래제목 텍스트뷰 및 노래가사 텍스트뷰에 노래 정보가 표시될 수 있도록
+
         // TODO : 노래 길이에 맞춰 씨크바가 움직일 수 있도록
+        // seekBar가 계속 증가가 될텐데 그때마다 이벤트 발생시켜줌
+        musicSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            // seekBar에 사용자가 손을 대고 있을 때 => 음악 중지
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                mediaPlayer.pause();
+            }
+
+            // seekBar에 사용자가 손을 떼었을 때 => 해당 장소에 음악 재생
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mediaPlayer.seekTo(seekBar.getProgress());
+                if(seekBar.getProgress() > 0 && isPlaying == true){
+                    mediaPlayer.start();
+                }
+            }
+        });
         // TODO : 에디트뷰에 단어 입력 후 "검색" 버튼을 누르면 단어 검색 결과 텍스트뷰에 해당 단어의 뜻이 나타날 수 있도록
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.btn_pause){
+            if(playSwitch){
+                // 음악 멈춤
+                mediaPlayer.pause();
+                playSwitch = true;
+            } else {
+                // 음악 재생 시작 지점을 이전에 멈춘 지점으로 지정해줌
+                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition());
+                // 음악 시작
+                mediaPlayer.start();
+                playSwitch = false;
+            }
+        } else if(v.getId() == R.id.btn_prev){
+            // TODO : 버튼 클릭 시 STUDY 리스트에 존재하는 노래 중 이전 곡으로 이동
+            if(position-1 >= 0){ // 이전 곡이 있을 때
+                position--;      // 위치를 이전으로 바꾸어줌
+                playMusic(list.get(position));  // 이전 음악을 재생시켜줌
+                musicSeekBar.setProgress(0);         // 음악을 처음부터 재생하니까 SeekBar도 처음으로 지정
+            }
+        } else if(v.getId() == R.id.btn_next){
+            // TODO : 버튼 클릭 시 STUDY 리스트에 존재하는 노래 중 다음 곡으로 이동
+            if(position+1 < list.size()){ // 다음 곡이 있을 때
+                position++;      // 위치를 다음으로 바꾸어줌
+                playMusic(list.get(position));  // 다음 음악을 재생시켜줌
+                musicSeekBar.setProgress(0);         // 음악을 처음부터 재생하니까 SeekBar도 처음으로 지정
+            }
+        }
+    }
+
+    // 해당 번호의 음악 가져와서 재생하기
+    public void playMusic(Playlist playlist) {
+        try{
+            musicSeekBar.setProgress(0); // 음악 재생 전 seekBar 0으로 초기화
+            musicTitle.setText(playlist.getName()); // 제목 보여줌
+            lyricsTextView.setText(playlist.getLyrics()); // 가사 보여줌
+            Log.v("musicActivity", "제목 보여줌");
+            Log.v("musicActivity",   playlist.getLyrics() + " 보여줌");
+            Log.v("musicActivity", "음악 " + R.raw.memories + " 새로 생성해줌");
+            Log.v("musicActivity", "음악 " + R.raw.peaches + " 새로 ㅁ생성해줌");
+            Log.v("musicActivity", "음악 " + R.raw.abcdefu + " 새로 생성해줌");
+            Log.v("musicActivity", "음악 " + R.raw.painkiller + " 새로 생성해줌");
+            mediaPlayer.reset(); // 음악 재생하기 전에 초기화
+            Log.v("musicActivity", "음악 " + playlist.getMusicResId() + " 새로 생성해줌");
+            mediaPlayer = MediaPlayer.create(this, playlist.getMusicResId());
+            // 음악이 모두 재생되어서 끝났을 때
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    if(position + 1 < list.size()){
+                        position++;
+                        playMusic(list.get(position));
+                    }
+                }
+            });
+            Log.v("musicActivity", "음악 OnCompletionListener 세팅해줌");
+            mediaPlayer.start();   // 음악 재생하기
+            Log.v("musicActivity", "음악 재생");
+            musicSeekBar.setMax(mediaPlayer.getDuration()); // seekBar의 최대값음 음악 재생 마지막 값으로 세팅
+            Log.v("musicActivity", "seekBar 최대값 지정");
+        } catch (Exception e){
+            Log.e("SimplePlayer", e.getMessage());
+        }
+    }
+
+
+
+    // seekBar의 progress 음악 재생과 동시에 증가시켜줌
+    // 스레드로 상속해줘서 음악 재생과 함께 동작할 수 있도록 해줌
+    class ProgressUpdate extends Thread{
+        @Override
+        public void run() {
+            while(isPlaying){ // 음악이 재생중이라면
+                try {
+                    Thread.sleep(500); // 0.5초마다
+                    if(mediaPlayer!=null){ // 음악이 없지 않다면
+                        // 현재 음악 재생 지점으로 progress 지정해줌(곧 계속 증가됨)
+                        musicSeekBar.setProgress(mediaPlayer.getCurrentPosition());
+                    }
+                } catch (Exception e) {
+                    Log.e("ProgressUpdate",e.getMessage());
+                }
+
+            }
+        }
+    }
+
+    // 화면이 나가게 되면, 음악 멈추고, 음악 실행 되었던거 삭제해줌
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isPlaying = false;
+        if(mediaPlayer!=null){
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 }
