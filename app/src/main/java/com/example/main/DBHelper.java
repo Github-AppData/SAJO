@@ -241,7 +241,7 @@ class DBHelper extends SQLiteOpenHelper {
 
         // '1' 이라는 숫자가 좋아요입니다. 그래서 col_like 컬럼 값의 1인 것만, col_rank, col_name, col_singer을 결과를 가져온다.
         String query = " SELECT " + col_mean +
-                " FROM " + DB_TABLE3 + " Where " + col_name + " = " + word;
+                " FROM " + DB_TABLE3 + " Where " + col_name + " = '" + word + "'";
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToNext()) {
@@ -253,6 +253,43 @@ class DBHelper extends SQLiteOpenHelper {
             return mean;
         }
         return mean;
+    }
+
+    // 메모 버튼 클릭 시 검색한 단어가 나의 단어장에 추가하고 성공을 출력하는 메서드
+    // (단, '현재 단어사전에 등록되어 있지 않은 단어입니다.'일 경우 불가합니다. '불가' 출력)
+    public String addMyWord(String mean){
+        Log.v("mean : ", mean);
+        if(mean.equals("현재 단어사전에 등록되어 있지 않은 단어입니다.")){
+            return "사전에 등록되지 않은 단어는 단어장에 추가할 수 없습니다.";
+        }
+        if(mean.equals("단어 검색 결과")){
+            return "단어장에 추가할 단어를 검색해주세요.";
+        }
+
+        String word = "";
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // 영단어 사전에서 name 값을 가져오기
+        String query = " SELECT " + col_name +
+                " FROM word_dictionary Where " + col_mean + " = '" + mean + "'";
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToNext()) {
+            word = cursor.getString(0);
+        }
+
+        // 단어장에 검색한 단어가 이미 있는지 확인
+        query = " SELECT " + col_name +
+                " FROM wordbook Where " + col_mean + " = '" + mean + "'";
+        cursor = db.rawQuery(query, null);
+        if (cursor.moveToNext()) {
+            cursor.close();
+            return "검색하신 단어는 이미 단어장에 있는 단어입니다.";
+        }
+
+        // 나의 단어장에 검색한 단어와 의미 추가
+        db.execSQL("INSERT INTO wordbook(name, mean) VALUES('" + word + "','" + mean + "')");
+
+        return "단어와 뜻이 나의 단어장에 추가되었습니다.";
     }
 
     // 차트 관련 메서드 

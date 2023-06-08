@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -86,16 +87,14 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         btn_go_study.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isPlaying = false;
+                if(mediaPlayer!=null){
+                    mediaPlayer.release();
+                    mediaPlayer = null;
+                }
+
                 Intent intent_st = new Intent(StudyActivity.this, MainActivity.class);
                 startActivity(intent_st);
-            }
-        });
-
-        // 메모 버튼 클릭 시 검색한 단어 및 검색 결과를 나의 단어장으로 이동
-        btn_to_wordbook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO : 메모 버튼 클릭 시 검색한 단어 및 검색 결과를 나의 단어장에 있는 리스트뷰로 이동 가능하도록 하는 로직
             }
         });
 
@@ -127,9 +126,24 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 현재 에러남 : while compiling: SELECT mean FROM word_dictionary Where name = mm SQL문 에러인 듯 함 해결해야함
-                String mean = dbhelper.getWordMean(searchWord.getText().toString());
-                wordDefinition.setText(mean);
+                if(searchWord.getText().toString().isEmpty()){
+                    Toast.makeText(StudyActivity.this, "검색할 단어를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                } else {
+                    String mean = dbhelper.getWordMean(searchWord.getText().toString());
+                    Log.v("mean", mean);
+                    wordDefinition.setText(mean);
+                }
+            }
+        });
+
+
+        // 메모 버튼 클릭 시 검색한 단어 및 검색 결과를 나의 단어장으로 이동
+        btn_to_wordbook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO : 메모 버튼 클릭 시 검색한 단어 및 검색 결과를 나의 단어장에 있는 리스트뷰로 이동 가능하도록 하는 로직
+                String result = dbhelper.addMyWord(wordDefinition.getText().toString());
+                Toast.makeText(StudyActivity.this, result, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -141,13 +155,13 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             if(playSwitch){
                 // 음악 멈춤
                 mediaPlayer.pause();
-                playSwitch = true;
+                playSwitch = false;
             } else {
                 // 음악 재생 시작 지점을 이전에 멈춘 지점으로 지정해줌
                 mediaPlayer.seekTo(mediaPlayer.getCurrentPosition());
                 // 음악 시작
                 mediaPlayer.start();
-                playSwitch = false;
+                playSwitch = true;
             }
         } else if(v.getId() == R.id.btn_prev){
             // TODO : 버튼 클릭 시 STUDY 리스트에 존재하는 노래 중 이전 곡으로 이동
@@ -223,7 +237,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    // 화면이 나가게 되면, 음악 멈추고, 음악 실행 되었던거 삭제해줌
+    // 앱 종료 시, 음악 멈추고, 음악 실행 되었던거 삭제해줌
     @Override
     protected void onDestroy() {
         super.onDestroy();
