@@ -195,6 +195,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             mediaPlayer.reset(); // 음악 재생하기 전에 초기화
             Log.v("musicActivity", "음악 " + playlist.getMusicResId() + " 새로 생성해줌");
             mediaPlayer = MediaPlayer.create(this, playlist.getMusicResId());
+            mediaPlayer.setVolume(1.0f, 1.0f);
             // 음악이 모두 재생되어서 끝났을 때
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override

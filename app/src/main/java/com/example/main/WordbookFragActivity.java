@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -80,7 +81,9 @@ public class WordbookFragActivity extends Fragment {
             Toast.makeText(requireContext(),"데이터가 없습니다.", Toast.LENGTH_SHORT).show();
         }
 
-        ListAdapter adapter = new ArrayAdapter<Wordbook>(requireContext(), R.layout.activity_wordbook, wordbooks) {
+
+
+        ArrayAdapter adapter = new ArrayAdapter<Wordbook>(requireContext(), R.layout.activity_wordbook, wordbooks) {
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -100,6 +103,17 @@ public class WordbookFragActivity extends Fragment {
                 return convertView;
             }
         };
+
+        wordListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.v("remove Word : ", wordbooks.get(i).getName());
+                // dbhelper.onUpgradeWord(i+1);
+                wordbooks.remove(i);
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        });
         wordListView.setAdapter(adapter);
 
         return rootView;

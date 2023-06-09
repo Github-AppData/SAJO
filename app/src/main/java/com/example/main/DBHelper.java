@@ -112,6 +112,11 @@ class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP table if exists " + DB_TABLE);
     }
 
+    public void onUpgradeWord(int i) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + DB_TABLE2 + " WHERE " + col_id + " = " + i);
+    }
+
     public void Insert(SQLiteDatabase db ,String db_name ,String id, String name, String pwd, String email){
         db.execSQL("INSERT INTO '" + db_name + "' VALUES('" + id + "','" + name + "','" + pwd + "', '" + email + "')");
     }
