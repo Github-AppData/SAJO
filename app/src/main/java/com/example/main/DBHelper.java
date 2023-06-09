@@ -25,6 +25,7 @@ class DBHelper extends SQLiteOpenHelper {
 
     private static String DB_TABLE = "song";
     private static String DB_TABLE2 = "wordbook";
+    private static String DB_TABLE3 = "word_dictionary";
 
     // Song columns name
     private static String col_id = "id";
@@ -32,6 +33,7 @@ class DBHelper extends SQLiteOpenHelper {
     private static String col_name = "name";
     private static String col_singer = "singer";
     private static String col_lyrics = "lyrics";
+    private static String col_musicResId = "music_resid";
     private static String col_like = "is_like";
 
     // wordbook columns name
@@ -110,11 +112,16 @@ class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP table if exists " + DB_TABLE);
     }
 
+    public void onUpgradeWord(int i) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + DB_TABLE2 + " WHERE " + col_id + " = " + i);
+    }
+
     public void Insert(SQLiteDatabase db ,String db_name ,String id, String name, String pwd, String email){
         db.execSQL("INSERT INTO '" + db_name + "' VALUES('" + id + "','" + name + "','" + pwd + "', '" + email + "')");
     }
 
-    public boolean insertData(int id, int rank, String name, String singer, String lyrics, String lyrics_translation)
+    public boolean insertData(int id, int rank, String name, String singer, String lyrics, String lyrics_translation, String music_resid)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -171,23 +178,28 @@ class DBHelper extends SQLiteOpenHelper {
 
     // 플레이리스트 관련 메서드
     // userdata.db에서 쿼리를 수행한 뒤에, 쿼리의 결과를 반환하는 메서드입니다.
-    public List<Playlist> getSongs2(){
-        List<Playlist> playlists = new ArrayList<>();
+    public ArrayList<Playlist> getSongs2(){
+        ArrayList<Playlist> playlists = new ArrayList<>();
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         // '1' 이라는 숫자가 좋아요입니다. 그래서 col_like 컬럼 값의 1인 것만, col_rank, col_name, col_singer을 결과를 가져온다.
-        String query = " SELECT " + col_rank + ", " + col_name + ", " + col_singer +
+        String query = " SELECT " + col_id + ", " + col_rank + ", " + col_name + ", " + col_singer + ", " + col_lyrics + ", " + col_musicResId +
                 " FROM " + DB_TABLE + " Where " + col_like + " = 1" ;
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
-                int rank = cursor.getInt(0); // Index 1 is rank
-                String name = cursor.getString(1); // Index 2 is name
-                String singer = cursor.getString(2); // Index 3 is singer
+                int id = cursor.getInt(0); // Index 1 is id
+                int rank = cursor.getInt(1); // Index 2 is rank
+                String name = cursor.getString(2); // Index 3 is name
+                String singer = cursor.getString(3); // Index 4 is singer
+                String lyrics = cursor.getString(4); // Index 5 is singer
+                int musicResId = cursor.getInt(5); // Index 6 is singer
 
-                Playlist playlist = new Playlist(rank, name, singer);
+                Playlist playlist = new Playlist(id, rank, name, singer);
+                playlist.setLyrics(lyrics);
+                playlist.setMusicResId(musicResId);
                 playlists.add(playlist);
             } while (cursor.moveToNext());
         }
@@ -225,6 +237,64 @@ class DBHelper extends SQLiteOpenHelper {
         db.close();
 
         return wordbook;
+    }
+
+    // 단어 사전에서 해당 단어에 대한 의미를 찾는 메서드
+    public String getWordMean(String word){
+        String mean = "현재 단어사전에 등록되어 있지 않은 단어입니다.";
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // '1' 이라는 숫자가 좋아요입니다. 그래서 col_like 컬럼 값의 1인 것만, col_rank, col_name, col_singer을 결과를 가져온다.
+        String query = " SELECT " + col_mean +
+                " FROM " + DB_TABLE3 + " Where " + col_name + " = '" + word + "'";
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToNext()) {
+            mean = cursor.getString(0);
+
+            cursor.close();
+            db.close();
+
+            return mean;
+        }
+        return mean;
+    }
+
+    // 메모 버튼 클릭 시 검색한 단어가 나의 단어장에 추가하고 성공을 출력하는 메서드
+    // (단, '현재 단어사전에 등록되어 있지 않은 단어입니다.'일 경우 불가합니다. '불가' 출력)
+    public String addMyWord(String mean){
+        Log.v("mean : ", mean);
+        if(mean.equals("현재 단어사전에 등록되어 있지 않은 단어입니다.")){
+            return "사전에 등록되지 않은 단어는 단어장에 추가할 수 없습니다.";
+        }
+        if(mean.equals("단어 검색 결과")){
+            return "단어장에 추가할 단어를 검색해주세요.";
+        }
+
+        String word = "";
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // 영단어 사전에서 name 값을 가져오기
+        String query = " SELECT " + col_name +
+                " FROM word_dictionary Where " + col_mean + " = '" + mean + "'";
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToNext()) {
+            word = cursor.getString(0);
+        }
+
+        // 단어장에 검색한 단어가 이미 있는지 확인
+        query = " SELECT " + col_name +
+                " FROM wordbook Where " + col_mean + " = '" + mean + "'";
+        cursor = db.rawQuery(query, null);
+        if (cursor.moveToNext()) {
+            cursor.close();
+            return "검색하신 단어는 이미 단어장에 있는 단어입니다.";
+        }
+
+        // 나의 단어장에 검색한 단어와 의미 추가
+        db.execSQL("INSERT INTO wordbook(name, mean) VALUES('" + word + "','" + mean + "')");
+
+        return "단어와 뜻이 나의 단어장에 추가되었습니다.";
     }
 
     // 차트 관련 메서드 

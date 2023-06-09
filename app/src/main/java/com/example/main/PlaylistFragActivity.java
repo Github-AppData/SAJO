@@ -1,5 +1,6 @@
 package com.example.main;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -87,7 +89,7 @@ public class PlaylistFragActivity extends Fragment {
         db.close();
 
         // playlist.class, dbhelper.getAllSong2 만들어야 한다.
-        List<Playlist> playList = dbhelper.getSongs2();
+        ArrayList<Playlist> playList = dbhelper.getSongs2();
 
         if(playList.isEmpty()){
             Toast.makeText(requireContext(), "데이터가 없습니다.", Toast.LENGTH_SHORT).show();
@@ -125,6 +127,17 @@ public class PlaylistFragActivity extends Fragment {
                 }
             };
             playListView.setAdapter(adapter);
+
+            playListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // Study 액티비티로 이동하는 Intent를 생성합니다.
+                    Intent study_intent = new Intent(parent.getContext(), StudyActivity.class);
+                    study_intent.putExtra("position", position);
+                    study_intent.putExtra("playlist", playList);
+                    startActivity(study_intent); // 액티비티 실행
+                }
+            });
         }
 
         return rootView;
